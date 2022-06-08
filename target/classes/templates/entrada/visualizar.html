@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+
+</head>
+<body>
+   <!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+   <div th:replace="fragments/layout :: navlinks"></div>
+    
+    
+   <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+
+              <div class="card info-card customers-card">
+
+	              <class="card-body">
+	              </br>
+	              <a href="/entrada/listar" class="btn btn-primary btn-sm" tabindex="-1"
+			         	     role="button" aria-disabled="true"><i class='bx bx-list-ul'></i>Listar</a>
+	              
+	              <h5 class="card-title">Visualizar <span>| Detalhes Nota</span></h5>
+				  
+				  
+				<div class="container">
+				 	<div class="row g-3">
+				   <div class="col col-lg-2">
+					  <label for="numeroNota" class="form-label">Número Nota</label>
+					  <input type="text" th:value="${numeroNota}" class="form-control"
+					          disabled id="numeroNota" >
+				   </div>
+				 	
+				  <div class="col col-lg-2">
+					  <label for="numeroNota" class="form-label">#ID Registro</label>
+					  <input type="text" th:value="${id}" class="form-control"
+					          disabled id="numeroNota" >
+				   </div>	
+				 	</div>
+				 	
+				  <div class="mb-3">
+					  <label for="fornecedor" class="form-label">Fornecedor</label>
+					  <input type="text" th:value="${fornecedor}" class="form-control"
+					          disabled id="fornecedor" >
+				  </div>
+				  
+				  
+				  <div class="mb-3">
+					  <label for="funcionario" class="form-label">Conferente</label>
+					  <input type="text" th:value="${funcionario}" class="form-control"
+					          disabled id="funcionario" >
+				  </div>
+				  
+				   <div class="mb-3">
+					  <label for="login" class="form-label">Login</label>
+					  <input type="text" th:value="${login}" class="form-control"
+					          disabled id="login" >
+				  </div>
+				  
+				   <div class="mb-3">
+					  <label for="tipoEntrada" class="form-label">Tipo Entrada</label>
+					  <input type="text" th:value="${tipoEntrada}" class="form-control"
+					          disabled id="tipoEntrada" >
+				  </div>
+				  
+				   <div class="row g-3">
+					  <div class="col">
+					    	<label for="dataRecebimento" class="form-label">Data Recebimento</label>
+					        <input type="text" th:value="${dataRecebimento}" class="form-control"
+					          disabled id="dataRecebimento" >
+					  </div>
+					  <div class="col">   
+					  	<label for="dataRegistro" class="form-label">Data Registro</label>
+					    <input type="text" id="dataRegistro" class="form-control" th:value="${dataRegistro}"
+					        placeholder="Last name" aria-label="Last name" disabled>
+					  </div>
+					</div>
+					
+					<div class="col">
+						  <label for="nome">Observação</label> <input type="text"
+								class="form-control" id="observacao" 
+								autofocus="autofocus" th:value="${observacao}" disabled />
+						 
+					</div>
+				    
+				</div>
+				
+			 <hr/>
+			
+             <div class="container">
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+								
+										<th>Itens</th>
+										<th>Quantidade</th>
+										<th>Valor</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="iten : ${listaEntradaItens}">
+									 
+										<td th:text="${iten.produto.nome}"></td>
+										<td th:text="${iten.quantidade}"></td>
+										<td th:text="${iten.valor}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+						<div class="container">
+	  						<div class="row">
+								<div class="col align-self-end">
+								
+							     <b><label for="quantidade">Total: </label> <span th:text="${total}"></b>
+							    </div>
+	  						</div>
+						</div>
+					
+					</br>
+				</div>
+			 </div>
+
+  
+				   
+	              </div>
+              </div>
+
+          </div><!-- End Customers Card -->
+      
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  
+    
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

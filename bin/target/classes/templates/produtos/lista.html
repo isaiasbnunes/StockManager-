@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+</head>
+<body>
+  <!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+  <div th:replace="fragments/layout :: navlinks"></div>
+
+	
+<!-- =========== Codigo comum - parte central da pagina ============ -->
+ <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+
+            <div class="card info-card customers-card">
+
+             
+
+	            <div class="card-body">
+	             </br>
+	                <div class="d-grid gap-2 d-md-block">
+		            	<a href="/produto/cadastrar" class="btn btn-primary btn-sm" tabindex="-1"
+				         	 role="button" aria-disabled="true"><i class='bx bxs-file-plus'></i>Novo</a>
+				      
+				          <a href="/produtos/generateReport" class="btn btn-primary btn-sm" tabindex="-1"
+				         	     role="button" aria-disabled="true"><i class='bx bx-list-ul'></i>Relatório</a>
+				         	     
+		            </div>
+			         	 
+	                  <h5 class="card-title">Listagem <span>| Produtos</span></h5>
+					  
+					  <!-- =========== Aqui entra o codigo alterado ============ -->
+	                  
+	                  		
+					<div class="table-responsive">
+						<table class="table datatable">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Nome</th>
+									<th>UM</th>
+									<th>Estoque</th>
+									<th>Valor</th>
+									<th>Ações</th>
+									
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="p : ${listaProduto}">
+									
+									<td th:text="${p.id}"></td>
+									<td th:text="${p.nome}"></td>
+									<td th:text="${p.unidadeMedida}"></td>
+									<td th:text="${p.estoque}"> </td>
+									<td>
+									  <span th:remove="tag" th:text="${#numbers.formatCurrency(p.valor)}">
+									   </span> 
+									</td>
+									
+									<td> 
+									
+									<a th:href="@{/produtos/editar{id}(id=${p.id})}"> 
+											<i class='bx bxs-edit'></i>
+									</a> 
+							    
+									<a th:href="@{/produtos/remover{id}(id=${p.id})}"> 
+											<i class='bx bx-trash'></i></button>
+									</a> 
+									</td>
+								</tr>
+							</tbody>	
+						</table>	
+	
+					</div>
+					<!-- =========== FIM codigo alterado ============ -->
+	       
+              </div>
+
+          </div><!-- End Customers Card -->
+
+      
+       </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+	
+	
+	
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

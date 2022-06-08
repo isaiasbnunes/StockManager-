@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+
+</head>
+<body>
+   <!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+   <div th:replace="fragments/layout :: navlinks"></div>
+    
+    
+<main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+
+              <class="card info-card customers-card">
+              
+              
+
+	              <class="card-body">
+	              <h5 class="card-title">Visualizar <span>| Consumo por categoria</span></h5>
+				  
+				  
+				     <form action="/relatorio/consumo_pesquisar"
+						   method="POST">
+						   
+					    <div class="row">
+							   <div class="col-8 col-sm-6">
+									<label>Data Inicio</label> 
+									<input type="date"  
+											class="form-control" id="dataInicio" required
+											autofocus="autofocus" name="dataInicio"  />
+							   </div>
+							   <div class="col-8 col-sm-6">
+									<label>Data Fim</label> 
+									<input type="date"  
+											class="form-control" id="dataFim" required
+											autofocus="autofocus" name="dataFim"  />
+							   </div>
+					    </div>
+					    </br>
+					     <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
+					    
+                     </form>
+              
+				  <hr />
+				  
+				  	<div class="table-responsive">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Categoria</th>
+									<th>Quantidade</th>
+									<th>Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="c : ${listConsumo}">
+									
+									<td th:text="${c.nomeCategoria}"></td>
+									<td th:text="${c.quantidade}"></td>
+									<td>
+										<span th:remove="tag" 
+									        th:text="${#numbers.formatCurrency(c.valor)}">
+									   </span>
+									</td>
+									
+								
+								</tr>
+							</tbody>	
+						</table>	
+	
+					</div>
+				
+		
+	          </div><!-- End Customers Card -->
+          </div>
+
+      </div>
+    </section>
+
+</main><!-- End #main -->
+  
+    
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

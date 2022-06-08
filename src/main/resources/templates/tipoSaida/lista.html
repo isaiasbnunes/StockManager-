@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+</head>
+<body>
+  <!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+  <div th:replace="fragments/layout :: navlinks"></div>
+
+	
+<!-- =========== Codigo comum - parte central da pagina ============ -->
+ <main id="main" class="main">
+
+    
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+
+            <div class="card info-card customers-card">
+
+             
+			
+				 
+	            <div class="card-body">
+	            </br>
+	            	<a href="/tipoSaida/cadastrar" class="btn btn-primary btn-sm" tabindex="-1"
+			         	 role="button" aria-disabled="true"><i class='bx bxs-file-plus'></i>Novo</a>
+			         	 
+	                  <h5 class="card-title">Listagem <span>| Tipo Saída</span></h5>
+					  
+					  <!-- =========== Aqui entra o codigo alterado ============ -->
+	                  
+	                  		
+					<div class="table-responsive">
+						<table class="table datatable">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Nome</th>
+									<th>Ações</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="t : ${listaTipoSaida}">
+									<td th:text="${t.id}"></td>
+									<td th:text="${t.nome}"></td>
+									
+									<td> 
+									
+									<a th:href="@{/tipoSaida/editar{id}(id=${t.id})}"> 
+											<i class='bx bxs-edit'></i>
+									</a> 
+							    
+									<a th:href="@{/tipoSaida/remover{id}(id=${t.id})}"> 
+											<i class='bx bx-trash'></i></button>
+									</a> 
+									</td>
+								</tr>
+							</tbody>	
+						</table>	
+	
+					</div>
+					<!-- =========== FIM codigo alterado ============ -->
+	       
+              </div>
+
+          </div><!-- End Customers Card -->
+
+      
+       </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+	
+	
+	
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

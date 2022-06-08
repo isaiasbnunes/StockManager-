@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+</head>
+<body>
+   <!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+   <div th:replace="fragments/layout :: navlinks"></div>
+    
+    
+     <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+
+              <div class="card info-card customers-card">
+
+	           <div class="card-body">
+	                </br>
+				    <a href="/fornecedor/listar" class="btn btn-primary btn-sm" tabindex="-1"
+			         	     role="button" aria-disabled="true"><i class='bx bx-list-ul'></i>Listar</a>
+	                  <h5 class="card-title">Cadastrar <span>| Fornecedor</span></h5>
+	                  
+	            <span th:if="${msg == 'success'}">
+		        <div class="alert alert-success alert-dismissible fade show" role="alert">
+					<strong>Sucesso!</strong> Fornecedor adicionado a base de dados.
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div></span>
+				
+	        
+			<form action="/fornecedor/salvar"
+				th:object="${fornecedor}" method="POST">
+				<div class="form-row">
+					<div class="mb-3">
+						<label for="nome">Razão Social</label> <input type="text"
+							class="form-control" id="nome" placeholder="Razão Social"
+							autofocus="autofocus" th:field="*{razaoSocial}" value="" required />
+						<div class="invalid-feedback"></div>
+					</div>
+					<div class="mb-3">
+						<label for="nomeFantasia">Nome Fantasia</label> 
+						  <input type="text" class="form-control" id="nomeFantasia"
+							     th:field="*{nomeFantasia}" value=""  />
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+			
+				
+				<div class="form-row">
+					<div class="mb-3">
+						<label for="cidade">Cidade</label> <select th:field="*{cidade}"
+							class="form-control">
+							<option th:each="cid: ${listaCidades}" th:value="${cid.id}"
+								th:text="${cid.nome}"></option>
+						</select>
+
+
+						<div class="invalid-feedback"></div>
+					</div>
+					<div class="mb-3">
+						<label for="endereco">Logradouro</label> 
+						   <input type="text"
+							class="form-control" id="endereco" th:field="*{endereco}"
+							placeholder="logradouro com numero" name="logradouro" value="" />
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+				
+				<div class="form-row">
+					<div class="mb-3">
+						<label for="bairro">Bairro</label> 
+						   <input type="text"  th:field="*{bairro}"
+							class="form-control" id="bairro" name="bairro" value="" />
+						<div class="invalid-feedback"></div>
+					</div>
+					<div class="mb-3">
+						<label for="complemento">Complemento</label> <input type="text"
+							class="form-control" id="complemento" th:field="*{complemento}"
+							placeholder="fundos, casa, AP. 102, .." name="complemento"
+							value="" />
+						<div class="invalid-feedback"></div>
+					</div>
+				</div>
+				
+				
+				<div class="form-row">
+					<div class="mb-3">
+						<label for="cep">cep</label> 
+						   <input type="text"  th:field="*{cep}"
+							class="form-control" id="cep" name="cep" value="" />
+						<div class="invalid-feedback"></div>
+					</div>
+					<div class="mb-3">
+						<label for="email">Email</label> 
+						 <input type="text" th:field="*{email}"
+							class="form-control" id="email" name="email" value="" />
+						<div class="invalid-feedback"></div>
+					</div>					
+				
+				</div>
+				
+				<div class="form-row">
+					<div class="mb-3">
+						<label for="telefone1">Telefone</label> 
+						   <input type="text"  th:field="*{telefone1}"
+							class="form-control" id="telefone1" name="telefone1" value="" />
+						<div class="invalid-feedback"></div>
+					</div>
+					<div class="mb-3">
+						<label for="telefone2">Celular</label> 
+						 <input type="text" th:field="*{telefone2}"
+							class="form-control" id="telefone2" name="telefone2" value="" />
+						<div class="invalid-feedback"></div>
+					</div>					
+				
+				</div>
+				
+				<input type="hidden" id="id" th:field="*{id}" value="" />
+				<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+			</form>
+		
+	                  
+	
+	                </div>
+              </div>
+
+          </div><!-- End Customers Card -->
+
+      
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  
+    
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

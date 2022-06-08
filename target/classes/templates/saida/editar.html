@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+</head>
+<body>
+   <!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+   <div th:replace="fragments/layout :: navlinks"></div>
+    
+    
+   <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+
+              <div class="card info-card customers-card">
+
+	              <class="card-body">
+	              </br>
+	              
+	              	<span th:if="${msg == 'estoq'}">
+						<div class="alert alert-danger alert-dismissible fade show" role="alert">
+									<strong>Erro!</strong> Produto está com estoque zerado ou insuficiente.
+									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div></span>
+	             
+			         <div class="d-grid gap-2 d-md-block">
+						  <a href="/saida/listar" class="btn btn-primary btn-sm" tabindex="-1"
+			         	     role="button" aria-disabled="true"><i class='bx bx-list-ul'></i>Listar</a>
+			         	   
+					 </div>
+								         	     
+	              <h5 class="card-title">Editar<span>| Saída</span></h5>
+				  
+				  
+				   <!--==== FORM ==== -->
+	       				
+				<form action="/saida/editSaida" th:object="${saida}"
+				       method="POST">
+				       
+				        <div class="container-fluid">
+						  <div class="row">
+						    
+						    <div class="col-8 col-sm-6">
+						          <label>Funcionário</label> <select th:field="*{funcionario}"
+										class="form-control">
+										<option th:each="fun: ${listaFuncionarios}" th:value="${fun.id}"
+											th:text="${fun.nome}"></option>
+									</select>
+			
+									<div class="invalid-feedback"></div>
+						    </div>
+						  </div>
+						  <div class="row">
+						  	<div class="col-8 col-sm-6">
+								<label>Data Saída</label> 
+								<input type="date"  th:value="${dataSaida}"
+										class="form-control" id="dataSaida" required
+										autofocus="autofocus" th:field="*{dataSaida}"  />
+						    </div>  
+						   
+						  </div>
+						  <div class="row">
+							   <div class="col-8 col-sm-6">
+							          <label>Tipo Saída</label> <select th:field="*{tipoSaida}"
+											class="form-control">
+											<option th:each="tipo: ${listTipoEntrada}" th:value="${tipo.id}"
+												th:text="${tipo}"></option>
+										</select>
+				
+										<div class="invalid-feedback"></div>
+							    </div>
+							    <div class="col-8 col-sm-6">
+							          <label> Destino </label> <select th:field="*{setor}"
+											class="form-control">
+											<option th:each="setor: ${listaSetor}" th:value="${setor.id}"
+												th:text="${setor}"></option>
+										</select>
+				
+										<div class="invalid-feedback"></div>
+							    </div>
+						   </div>
+						   
+						   <div class="row">
+							    <div class="col">
+							    	<label for="nome">Observação</label> <input type="text"
+										class="form-control" id="observacao" placeholder="Observação"
+										autofocus="autofocus" th:field="*{observacao}" />
+									<div class="invalid-feedback"></div>
+							    </div>
+						   </div>
+						</div>
+				    
+				<hr />
+
+				<div class="form-row" th:object="${saidaItens}"> 
+					<div class="container">
+						
+						
+						<div class="col-md-12">
+							<label for="produtoList" class="form-label">Produto</label>
+							<input class="form-control" th:field="*{produto}" list="datalistOptions" id="produtoList" placeholder="Digite para pesquisar...">
+							
+							<datalist id="datalistOptions" th:field="*{produto}" >
+							    <option th:each="produto: ${listaProdutos}" th:value="${produto.id}"
+												th:text="${produto}"></option>
+							</datalist>
+						</div>
+					
+
+					
+					   
+						  <div class="row">
+						    <div class="col-8 col-sm-6">
+						        <label for="quantidade">Quantidade</label> <input type="number"
+									class="form-control" id="quantidade" placeholder="Quantidade"
+									autofocus="autofocus" th:field="*{quantidade}" value="" />
+								<div class="invalid-feedback"></div>
+						    </div>
+						   
+						    
+						  </div>
+						
+
+
+					<div class="form-group col-md-2">
+						<!-- 					<label for="add">Ação</label>  -->
+						<br />
+						<button id="add" name="acao" style="margin-top:8px" th:value="itens" type="submit"
+							class="btn btn-primary btn-sm">Adicionar</button>
+					</div>
+			     </div><!-- FIM Div Container -->
+				</div> <!-- FIM form-row -->
+				<hr />
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						<div class="table-responsive">
+							<table class="table table-striped table-hover table-sm">
+								<thead>
+									<tr>
+								
+										<th>Itens</th>
+										<th>Quantidade</th>
+										<th>Remover</th>
+
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="iten : ${listaSaidaItens}">
+									 
+										<td th:text="${iten.produto.nome}"></td>
+										<td th:text="${iten.quantidade}"></td>
+										<td>
+										 		<button id="add" name="acao" style="margin-top:8px"
+										 		     th:value="${iten.produto.nome}" type="submit"
+						                            	class="btn btn-outline-danger btn-sm"><i class='bx bx-trash'></i></button>
+											
+										</td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<input type="hidden" id="id" th:field="*{id}" value="" />
+				<button type="submit" class="btn btn-primary btn-sm btn-block" name="acao"
+					th:value="salvar">Salvar</button>
+				
+				<a href="/saida/cancelar" class="btn btn-outline-secondary btn-sm"
+					 tabindex="-1" role="button" >Cancelar</a>
+			</form>  
+	       <!--==== FIM FORM ==== -->
+				   
+				   
+	              </div>
+              </div>
+
+          </div><!-- End Customers Card -->
+      
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  
+    
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

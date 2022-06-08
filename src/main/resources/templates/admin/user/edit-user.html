@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+</head>
+<body>
+
+<!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+<div th:replace="fragments/layout :: navlinks"></div>
+    
+    
+<main id="main" class="main">
+
+   <section class="section dashboard">
+     <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+			
+			  
+	         <div class="card info-card customers-card">
+	
+		         <div class="card-body">
+		         		</br>
+		         		
+		         		<span th:if="${msg == 'success'}">
+					        <div class="alert alert-success alert-dismissible fade show" role="alert">
+								<strong>Sucesso!</strong> Usuário editado com sucesso!
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div></span>
+						
+						<span th:if="${msg == 'errorSenhaFraca'}">
+					        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+					        <h4 class="alert-heading">Senha Fraca!</h4>
+								<p> A senha não atende aos criterios de segurança!</p>
+								<hr>
+								<p class="mb-0"> A senha deve conter no minimo 6 caracteres, dentre eles letra minúscula, letra maiúscula, numero e ao menos um destes símbolos: @, #, $, %, &  </p>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div></span>
+						
+						
+		         	    <span th:if="${msg == 'error'}">
+					        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<strong>Error!</strong> Senha inválida!.
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div></span>
+		         		
+		         		
+		                <h5 class="card-title">Editar <span>| Usuário</span></h5>
+		
+			        <form action="/admin/user/editar"
+						th:object="${user}" method="POST">
+						
+						<div class="mb-3">
+						  <label for="nome" class="form-label">Nome</label>
+						  <input type="text" class="form-control" id="nome" th:field="*{name}"
+						           required >
+						</div>
+						
+						<div class="mb-3">
+						  <label for="email" class="form-label">Email</label>
+						  <input type="text" class="form-control" id="email" th:field="*{email}"
+						           required >
+						</div>
+						
+						<div class="mb-3">
+						  <label for="user" class="form-label">Usuário</label>
+						  <input type="text" class="form-control" id="user" disabled
+						                  th:field="*{username}" >
+						</div>
+						
+						
+						<div class="mb-3">
+	                      <label for="senha" class="form-label">Digite a senha atual</label>
+	                      <input type="password" name="senha" class="form-control" id="senha"
+	                              th:field="*{confirmPassword}" required>
+	                    </div>
+						
+						
+						<div class="mb-3">
+	                      <label for="yourPassword" class="form-label">Digite a nova senha</label>
+	                      <input type="password" name="password" class="form-control" id="yourPassword"
+	                               th:field="*{password}" required>
+	                      
+	                    </div>
+	                    
+	           			<input type="hidden" class="form-control" id="roles"  th:field="*{role}"  >
+						<input type="hidden" class="form-control" th:field="*{username}" >
+					    <input type="hidden" id="id" th:field="*{id}" value="" />
+						<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+					</form>
+			
+		         </div>
+	         </div>
+
+          </div><!-- End Customers Card -->
+
+      
+     </div>
+   </section>
+
+</main><!-- End #main -->
+  
+    
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

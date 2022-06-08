@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+</head>
+<body>
+
+<!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+<div th:replace="fragments/layout :: navlinks"></div>
+    
+    
+<main id="main" class="main">
+
+   <section class="section dashboard">
+     <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+			
+			  
+	         <div class="card info-card customers-card">
+	
+		         <div class="card-body">
+		         		</br>
+		         		
+		         		<span th:if="${msg == 'success'}">
+					        <div class="alert alert-success alert-dismissible fade show" role="alert">
+								<strong>Sucesso!</strong> Cidade adicionada a base de dados.
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div></span>
+		         		
+		         		<a href="/cidade/listar" class="btn btn-primary btn-sm" tabindex="-1"
+			         	     role="button" aria-disabled="true"><i class='bx bx-list-ul'></i>Listar</a>
+			         	     
+		                <h5 class="card-title">Cadastrar <span>| Cidade</span></h5>
+		
+			        <form action="/cidade/salvar"
+						th:object="${cidade}" method="POST">
+						
+						<div class="mb-3">
+						  <label for="nome" class="form-label">Nome</label>
+						  <input type="text" class="form-control" id="nome" th:field="*{nome}"
+						           placeholder="Nome cidade" required >
+						</div>
+						
+						<div class="mb-3">
+							<label for="estado">Estado</label> <select th:field="*{estado}"
+								class="form-control">
+								<option th:each="e: ${listaEstados}" th:value="${e.id}"
+									th:text="${e.nome}"></option>
+							</select>
+	
+	
+							<div class="invalid-feedback"></div>
+						</div>
+					
+						<input type="hidden" id="id" th:field="*{id}" value="" />
+						<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+					</form>
+			
+		         </div>
+	         </div>
+
+          </div><!-- End Customers Card -->
+
+      
+     </div>
+   </section>
+
+</main><!-- End #main -->
+  
+    
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

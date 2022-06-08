@@ -1,0 +1,140 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+
+</head>
+<body>
+   <!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+   <div th:replace="fragments/layout :: navlinks"></div>
+    
+    
+   <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+
+              <div class="card info-card customers-card">
+
+	              <class="card-body">
+	              
+	              </br>
+	             
+			         <div class="d-grid gap-2 d-md-block">
+			              <a href="/saida/cadastrar" class="btn btn-primary btn-sm" tabindex="-1"
+			         	          role="button" aria-disabled="true"><i class='bx bxs-file-plus'></i>Novo</a>
+						  <a href="/saida/listar" class="btn btn-primary btn-sm" tabindex="-1"
+			         	     role="button" aria-disabled="true"><i class='bx bx-list-ul'></i>Listar</a>
+			         
+					 </div>
+	              
+	              <h5 class="card-title">Visualizar <span>| Saída </span></h5>
+				  
+				  
+				<div class="container">
+				 	
+				   <div class="col col-lg-2">
+					  <label for="numeroNota" class="form-label">ID Saída</label>
+					  <input type="text" th:value="${id}" class="form-control"
+					          disabled id="numeroNota" >
+				   </div>
+				 	
+				  <div class="mb-3">
+					  <label for="funcionario" class="form-label">Despenseiro</label>
+					  <input type="text" th:value="${funcionario}" class="form-control"
+					          disabled id="funcionario" >
+				  </div>
+				  
+				   <div class="mb-3">
+					  <label for="tipoSaida" class="form-label">Tipo Saída</label>
+					  <input type="text" th:value="${tipoSaida}" class="form-control"
+					          disabled id="tipoSaida" >
+				  </div>
+				  
+				  <div class="mb-3">
+					  <label for="setor" class="form-label">Destino</label>
+					  <input type="text" th:value="${setor}" class="form-control"
+					          disabled id="setor" >
+				  </div>
+				  
+				   <div class="row g-3">
+					   <div class="col">
+					  <label for="dataSaida" class="form-label">Data Saída</label>
+					  <input type="text" th:value="${dataSaida}" class="form-control"
+					          disabled id="dataSaida" >
+				   </div>
+				   
+				   <div class="col">
+					  <label for="dataRegistro" class="form-label">Data Registro</label>
+					  <input type="text" th:value="${dataRegistro}" class="form-control"
+					          disabled id="dataRegistro" >
+				   </div>
+					</div>
+					
+					<div class="col">
+						  <label for="nome">Observação</label> <input type="text"
+								class="form-control" id="observacao" 
+								autofocus="autofocus" th:value="${observacao}" disabled />
+						 
+					</div>
+				    
+				</div>
+				
+			 <hr/>
+			
+             <div class="container">
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th>Itens</th>
+										<th>Quantidade</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="iten : ${listaSaidaItens}">
+										<td th:text="${iten.produto.nome}"></td>
+										<td th:text="${iten.quantidade}"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+					
+						<div class="container">
+	  						<div class="row">
+								<div class="col align-self-end">
+							         <b><label for="quantidade">Total: </label>
+							              <span th:text="${total}"></b>
+							    </div>
+	  						</div>
+						</div>
+					
+					</br>
+				</div>
+			 </div>
+
+  
+				   
+	              </div>
+              </div>
+
+          </div><!-- End Customers Card -->
+      
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+  
+    
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>
