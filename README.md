@@ -1,1 +1,1 @@
-# StockManager-
+# StockManager
