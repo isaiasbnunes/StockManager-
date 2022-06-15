@@ -24,10 +24,10 @@
               
 
 	              <class="card-body">
-	              <h5 class="card-title">Visualizar <span>| Consumo por produto</span></h5>
+	              <h5 class="card-title">Relatório <span>| Consumo por produto</span></h5>
 				  
 				  
-				     <form action="/relatorio/consumo_produto"
+				     <form action="/relatorio/consumo_produto_gerarPDF"
 						   method="POST">
 						   
 					    <div class="row">
@@ -43,36 +43,40 @@
 											class="form-control" id="dataFim" required
 											autofocus="autofocus" name="dataFim"  />
 							   </div>
+							   
+							    <div class="mb-3">
+								  <label for="categoria">Categoria</label> <select 
+											class="form-control" id="categoria" name="categoria" >
+											<option th:each="c: ${listCategoria}" th:value="${c.nome}"
+												th:text="${c.nome}"></option>
+										</select>
+								</div>
+							   
+							   <div class="mb-3">
+							   <div class="form-check">
+								  <input class="form-check-input" type="checkbox" name="todas" id="todas">
+								  <label class="form-check-label" for="flexCheckDefault">
+								    Pesquisar por todas as categorias
+								  </label>
+							   </div>
+							   </div>
+							   
+							   <div class="mb-3">
+							   <div class="form-check">
+								  <input class="form-check-input" type="checkbox" name="zero" id="zero">
+								  <label class="form-check-label" for="flexCheckDefault">
+								      Permitir valores zerados
+								  </label>
+							   </div>
+							   </div>
+							   
+							   
 					    </div>
 					    </br>
-					     <button type="submit" class="btn btn-primary btn-sm">Pesquisar</button>
+					     <button type="submit" class="btn btn-primary btn-sm">Gerar Relatório</button>
 					    
                      </form>
               
-				  <hr />
-				  
-				  	<div class="table-responsive">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th>Categoria</th>
-									<th>Quantidade</th>
-								
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="p : ${listConsumoProduto}">
-									
-									<td th:text="${p.nomeProduto}"></td>
-									<td th:text="${p.quantidade}"></td>
-									
-								</tr>
-							</tbody>	
-						</table>	
-	
-					</div>
-				
-		
 	          </div><!-- End Customers Card -->
           </div>
 

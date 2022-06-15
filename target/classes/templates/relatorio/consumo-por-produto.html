@@ -44,23 +44,41 @@
 											autofocus="autofocus" name="dataFim"  />
 							   </div>
 							   
-							    <div class="mb-3">
+							    <div class="col-8 col-sm-6">
 								  <label for="categoria">Categoria</label> <select 
 											class="form-control" id="categoria" name="categoria" >
 											<option th:each="c: ${listCategoria}" th:value="${c.nome}"
 												th:text="${c.nome}"></option>
 										</select>
 								</div>
+								
+								<div class="col-8 col-sm-6">
+								  <label for="categoria">Setor/Departamento</label> <select 
+											class="form-control" id="setor" name="setor" >
+											<option th:each="c: ${listSetor}" th:value="${c.nome}"
+												th:text="${c.nome}"></option>
+										</select>
+								</div>
+								
 							   
-							   <div class="mb-3">
-							   <div class="form-check">
-								  <input class="form-check-input" type="checkbox" name="todas" id="todas">
-								  <label class="form-check-label" for="flexCheckDefault">
-								    Pesquisar por todas as categorias
-								  </label>
-							   </div>
-							   </div>
+							   <div class="col-8 col-sm-6">
+								   <div class="form-check">
+									  <input class="form-check-input" type="checkbox" name="todas" id="todas">
+									  <label class="form-check-label" for="flexCheckDefault">
+									    Pesquisar por todas as categorias
+									  </label>
+								   </div>
+							    </div>
 							   
+							   <div class="col-8 col-sm-6">
+								   <div class="form-check">
+									  <input class="form-check-input" type="checkbox" name="todosSetores" id="todosSetores">
+									  <label class="form-check-label" for="flexCheckDefault">
+									    Pesquisar por todos os setores
+									  </label>
+								   </div>
+							   </div>
+							   <br/>
 							   <div class="mb-3">
 							   <div class="form-check">
 								  <input class="form-check-input" type="checkbox" name="zero" id="zero">

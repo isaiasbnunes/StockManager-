@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!--  Dicionando Links do cabeçalho  ___  Fragments headerfiles -->
+<th:block th:include="fragments/layout.html :: headerfiles"> </th:block> 
+</head>
+<body>
+  <!--  Dicionando Menu  ___  Fragments NAVLINKS -->
+  <div th:replace="fragments/layout :: navlinks"></div>
+
+	
+<!-- =========== Codigo comum - parte central da pagina ============ -->
+ <main id="main" class="main">
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <class="col-lg-8">
+          <div class="row">
+
+            <div class="card info-card customers-card">
+
+	            <div class="card-body">
+	            </br>
+	                  <h5 class="card-title">Listagem <span>| Log</span></h5>
+					  
+					  <!-- =========== Aqui entra o codigo alterado ============ -->
+	                  
+					<div class="table-responsive">
+						<table class="table datatable">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Data</th>
+									<th>User</th>
+									<th>Operação</th>
+									<th>Dados Antes</th>
+									<th>Dados Depois</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="l : ${listLog}">
+									<td th:text="${l.id}"></td> 
+									<td th:text="${l.data}"></td>
+									<td th:text="${l.user}"></td>
+									<td th:text="${l.operacao}"></td>
+									<td th:text="${l.dadosAntes}"></td>
+									<td th:text="${l.dadosDepois}"></td>
+								</tr>
+							</tbody>	
+						</table>	
+	
+					</div>
+					<!-- =========== FIM codigo alterado ============ -->
+	       
+              </div>
+
+          </div><!-- End Customers Card -->
+
+      
+       </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+	
+	
+	
+   <!--  Dicionando Footer  ___  Fragments FOOTER -->
+  <div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

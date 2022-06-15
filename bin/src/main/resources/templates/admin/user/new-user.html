@@ -69,63 +69,20 @@
 	                      
 	                    </div>
 	                    
-	                    <div class="form-row" th:object="${user_roles}"> 
-						    <div class="container">
-		                    
 			                    <div class="mb-3">
-								<label for="roles">Tipo de Permissão</label> <select th:field="*{nome}"
+								<label for="roles">Tipo de Permissão</label> <select th:field="*{role}"
 											class="form-control" id="roles" >
 											<option th:each="r: ${roles}" th:value="${r}"
-												th:text="${r.nome}"></option>
+												th:text="${r}"></option>
 										</select>
 								</div>
-								<div class="form-group col-md-2">
-								
-								<button id="add" name="acao" style="margin-top:8px" th:value="itens" type="submit"
-									class="btn btn-primary">Adicionar</button>
-								</div>
-							</div><!-- FIM Div Container -->
-					    </div> <!-- FIM form-row -->
-						
-						<hr />
+							
 						
 						
-						<div class="form-row">
-							<div class="form-group col-md-12">
-								<div class="table-responsive">
-									<table class="table datatable">
-										<thead>
-											<tr>
-										
-												<th>Permissão</th>
-											
-		
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="iten : ${listaRolesUser}">
-											 
-												<td th:text="${iten.nome}"></td>
-												
-												<td>
-												 	<button id="add" name="acao" style="margin-top:8px"
-												 	     th:value="${iten.nome}" type="submit"
-								                          class="btn btn-primary"><i class='bx bx-trash'></i></button>
-													
-												</td>
-		
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-							</br>
-						</div>
-
 						
 						
 						<input type="hidden" id="id" th:field="*{id}" value="" />
-						<button type="submit" name="acao" th:value="salvar" class="btn btn-primary btn-sm">Salvar</button>
+						<button type="submit"   class="btn btn-primary btn-sm">Salvar</button>
 					</form>
 			
 		         </div>

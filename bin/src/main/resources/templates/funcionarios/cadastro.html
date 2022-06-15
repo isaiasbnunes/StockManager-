@@ -43,7 +43,12 @@
 						<div class="invalid-feedback"></div>
 					</div>
 					
-				
+						<div class="mb-3"> 
+				 				<label for="dataNascimento">Data de Nascimento</label> <input
+				 						type="date" class="form-control" id="dataNascimento" 
+				 						name="dataNascimento" value="" th:field="*{dataNascimento}" /> 
+				 				<div class="invalid-feedback"></div> 
+				 		</div> 
 				 
 						<div class="mb-3"> 
 				 				<label for="dataEntrada">Data de Entrada</label> <input
@@ -51,6 +56,7 @@
 				 						name="dataEntrada" value="" th:field="*{dataEntrada}" /> 
 				 				<div class="invalid-feedback"></div> 
 				 		</div> 
+				 		
 				 		<div class="mb-3">
 				 				<label for="dataSaida">Data de Saída</label> <input type="date"
 				 					class="form-control" id="dataSaida" name="dataSaida"  th:field="*{dataSaida}" />
@@ -84,9 +90,7 @@
 							<option th:each="cid: ${listaCidades}" th:value="${cid.id}"
 								th:text="${cid.nome}"></option>
 						</select>
-							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-						       <i class='bx bx-plus'></i>
-						    </button>
+							
 						</div>
 					</div>
 					
@@ -137,15 +141,16 @@
 					</div>		
 					
 					<div class="mb-3">
-						<label for="password">Senha</label> 
-						 <input type="text" th:field="*{password}"
-							class="form-control" id="password" name="password" value="" />
+						<label for="telefone1">Telefone</label> 
+						 <input type="text" th:field="*{telefone1}"
+							class="form-control" id="telefone1" name="telefone1" value="" />
 						<div class="invalid-feedback"></div>
-					</div>				
-				
+					</div>	
+					
 				
 				<input type="hidden" id="id" th:field="*{id}" value="" />
-				<button type="submit" name="acao" th:value="salvar" class="btn btn-primary btn-sm">Salvar</button>
+				<button type="submit"  class="btn btn-primary btn-sm">Salvar</button>
+				
 			</form>
 		
 
@@ -154,45 +159,6 @@
 
           </div><!-- End Customers Card -->
           
-			<!-- Modal -->
-			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content">
-			      <div class="modal-header">
-			        <h5 class="modal-title" id="exampleModalLabel">Cadastro Cidade</h5>
-			        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			      </div>
-			      <form action="/funcionarios/cidade"
-				       th:object="${cidade}" method="POST">
-				      <div class="modal-body">
-				        	<div class="mb-3">
-							  <label for="nomeCidade" class="form-label">Nome</label>
-							  <input type="text" class="form-control" id="nomeCidade" th:field="*{nome}"
-							           placeholder="Nome cidade" required >
-							</div>
-							
-							<div class="mb-3">
-								<label for="estado">Estado</label> <select th:field="*{estado}"
-									class="form-control">
-									<option th:each="e: ${listaEstados}" th:value="${e.id}"
-										th:text="${e.nome}"></option>
-								</select>
-		
-		
-								<div class="invalid-feedback"></div>
-							</div>
-				      </div>
-				      <div class="modal-footer">
-				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				        <button id="cidadeAdd" name="acao" style="margin-top:8px" th:value="cidade" type="submit"
-							class="btn btn-primary">Salvar</button>
-							
-				      </div>
-			      </form>
-			    </div>
-			  </div>
-			</div>
-			<!--FIM Modal -->
       
       </div>
     </section>

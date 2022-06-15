@@ -22,11 +22,15 @@
 
             <div class="card info-card customers-card">
 
-             
-			
-				 
 	            <div class="card-body">
 	            </br>
+	            	 
+	            	<span th:if="${msg == 'isAtendida'}">
+			        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+						<strong>Saída atendida!</strong>
+						<p> Está saída já foi atendida e não pode mais ser alterada.</p>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div></span>
 	            	 
 			         <div class="d-grid gap-2 d-md-block">
 						   <a href="/saida/cadastrar" class="btn btn-primary btn-sm" tabindex="-1"
@@ -49,24 +53,38 @@
 									<th>Funcionário</th>
 									<th>Tipo Saída</th>
 									<th>Setor Destino</th>
+									<th>Status</th>
 									<th>Ações</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr th:each="saidas : ${listaSaidas}">
+								
+							
+								
 									<td th:text="${saidas.id}"></td>
 									<td th:text="${saidas.dataSaida}"></td>
 									<td th:text="${saidas.funcionario}"></td>
 									<td th:text="${saidas.tipoSaida}"></td>
 									<td th:text="${saidas.setor}"></td>
-									
+									<td th:if="${saidas.isAtendida}"> Atendida</td>
+									<td th:if="${!saidas.isAtendida}" class="table-primary"> Atender</td>
 									<td> 
 									
-									<a th:href="@{/saida/visualizar{id}(id=${saidas.id})}"> 
-											<i class='bx bxs-edit'></i>
+									<a th:href="@{/saida/edit{id}(id=${saidas.id})}"> 
+										  	<i class='bx bxs-edit'></i> 
+									</a> 
+									
+									<a th:href="@{/saida/atenderSaida{id}(id=${saidas.id})}"> 
+										   <i class='bx bx-check'></i>
+									</a> 
+									
+								    <a th:href="@{/saida/visualizar{id}(id=${saidas.id})}"> 
+											 <i class='bx bx-detail'></i>
 									</a> 
 							    
 									</td>
+							
 								</tr>
 							</tbody>	
 						</table>	

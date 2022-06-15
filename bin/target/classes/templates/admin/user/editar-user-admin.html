@@ -56,7 +56,7 @@
 						</div>
 						
 						<div class="mb-3">
-						<label for="roles">Tipo de Permissão</label> <select th:field="*{roles}"
+						<label for="roles">Tipo de Permissão</label> <select th:field="*{role}"
 									class="form-control" id="roles" >
 									<option th:each="r: ${roles}" th:value="${r}"
 										th:text="${r}"></option>
@@ -67,8 +67,7 @@
 	                    
 	                    <input type="hidden" name="senha" class="form-control" id="senha"
 	                              th:field="*{password}" >
-	           			<input type="hidden" class="form-control" id="roles"  th:field="*{roles}"  >
-						 <input type="hidden" class="form-control" th:field="*{username}" >
+						<input type="hidden" class="form-control" th:field="*{username}" >
 					    <input type="hidden" id="id" th:field="*{id}" value="" />
 						<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
 					</form>

@@ -15,10 +15,11 @@
 		<band height="79" splitType="Stretch">
 			<textField pattern="MMMMM dd, yyyy">
 				<reportElement x="440" y="0" width="114" height="20" uuid="0142cfc3-2fe7-405e-ae33-4e46a50cb968"/>
+				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="0" y="0" width="210" height="79" uuid="af0557bc-1a52-4ca0-bd17-e0126e33425c"/>
+				<reportElement x="0" y="0" width="210" height="70" uuid="d344f63f-7c3b-4da6-9294-4dcf41589980"/>
 				<imageExpression><![CDATA["reports/img/logo_clementino.png"]]></imageExpression>
 			</image>
 		</band>
@@ -99,7 +100,7 @@
 	<pageFooter>
 		<band height="61" splitType="Stretch">
 			<textField>
-				<reportElement x="450" y="40" width="119" height="21" uuid="a4c5e513-3499-410d-aae6-cbefbf66100c"/>
+				<reportElement x="438" y="40" width="119" height="21" uuid="a4c5e513-3499-410d-aae6-cbefbf66100c"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>

@@ -30,6 +30,7 @@ import com.stock.models.Log;
 import com.stock.models.Produto;
 import com.stock.models.Saida;
 import com.stock.models.SaidaItens;
+import com.stock.models.Setor;
 import com.stock.repository.CategoriaProdutoRepository;
 import com.stock.repository.FuncionarioRepository;
 import com.stock.repository.LogRepository;
@@ -359,11 +360,13 @@ private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
 	}
 	
 	
+	//Gerar relatorio  - Tela
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/relatorio/consumo_produto")
 	public ModelAndView consumoProduto() {
 		ModelAndView mv = new ModelAndView("relatorio/consumo-por-produto");
 		mv.addObject("listCategoria", categoriaRepository.findAll());
+		mv.addObject("listSetor", setorRepository.findAll());
 	   return mv;
 	}
 	
@@ -371,11 +374,13 @@ private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@PostMapping("/relatorio/consumo_produto_gerarPDF")
 	public ResponseEntity<byte[]> pesquisarConsumoPorProduto(String dataInicio, String dataFim, String categoria,
-			boolean todas, boolean zero)
+			String setor, boolean todas, boolean todosSetores, boolean zero)
 			throws ParseException {
 		
+			System.out.println("Setor >>>> "+ setor);
+		
 		    List<Consumo> list =	consumoProduto(new SimpleDateFormat("yyyy-MM-dd").parse(dataInicio),
-				new SimpleDateFormat("yyyy-MM-dd").parse(dataFim), categoria, todas, zero);
+				new SimpleDateFormat("yyyy-MM-dd").parse(dataFim), categoria, setor, todas, todosSetores, zero);
 	
 	   return generatePdf(list, dataInicio, dataFim);
 	}
@@ -411,9 +416,23 @@ private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
 		return cadastrar(new Saida(), new SaidaItens(),"");
 	}
 	
-	private List<Consumo> consumoProduto(Date dataInicio, Date dataFim, String categoria, boolean todas, boolean zero) {
+	private List<Saida> findSaidaBySetorAndDate(Date dataInicio, Date dataFim, String setor, boolean todosSetores){
+		
+		if(!todosSetores) {
+			return saidaRepository.findByDateAndSetor(setor, dataInicio, dataFim);
+		}
+		
+		return saidaRepository.findByDate(dataInicio, dataFim);
+	}
+	
+	private List<Consumo> consumoProduto(Date dataInicio, Date dataFim, String categoria,
+			String setor, boolean todas, boolean todosSetores, boolean zero) {
+		
 		List<Consumo> listConsumo =  new ArrayList<>(); 
-		List<Saida> saidas = saidaRepository.findByDate(dataInicio, dataFim);
+		//List<Saida> saidas = saidaRepository.findByDate(dataInicio, dataFim);
+		//List<Saida> saidas = saidaRepository.findByDateAndSetor(setor, dataInicio, dataFim);
+		
+		List<Saida> saidas = findSaidaBySetorAndDate(dataInicio, dataFim, setor, todosSetores);
 		List<Produto> listProduto;
 		
 		if(todas) {

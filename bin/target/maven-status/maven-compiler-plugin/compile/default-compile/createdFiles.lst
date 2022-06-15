@@ -38,7 +38,6 @@ com/stock/controller/CidadeController.class
 com/stock/DataConfiguration.class
 com/stock/repository/TipoSaidaRepository.class
 com/stock/controller/TipoSaidaController.class
-com/stock/enums/Roles.class
 com/stock/models/TipoSaida.class
 com/stock/models/Funcionario.class
 com/stock/enums/UnidadeMedida.class
