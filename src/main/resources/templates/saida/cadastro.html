@@ -23,12 +23,13 @@
 	              <class="card-body">
 	              </br>
 	              
-	              	<span th:if="${msg == 'estoq'}">
-						<div class="alert alert-danger alert-dismissible fade show" role="alert">
-									<strong>Erro!</strong> Produto está com estoque zerado ou insuficiente.
-									<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-						</div></span>
-	             
+	              
+	               <div th:if="${msg!=null and msg!='' }" class="alert alert-danger alert-dismissible fade show" role="alert">
+								
+					  <span th:text="${msg}"></span></h1>
+		   			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				   </div>
+	              
 			         <div class="d-grid gap-2 d-md-block">
 						  <a href="/saida/listar" class="btn btn-primary btn-sm" tabindex="-1"
 			         	     role="button" aria-disabled="true"><i class='bx bx-list-ul'></i>Listar</a>
@@ -113,21 +114,17 @@
 						</div>
 					
 
-					
-					   
 						  <div class="row">
 						    <div class="col-8 col-sm-6">
-						        <label for="quantidade">Quantidade</label> <input type="number" step="any"
+						        <label for="quantidade">Quantidade</label> 
+						         <input type="number" step="any"
 									class="form-control" id="quantidade" placeholder="Quantidade"
-									autofocus="autofocus" th:field="*{quantidade}" value="" />
+									autofocus="autofocus" th:field="*{quantidade}" value=""  />
 								<div class="invalid-feedback"></div>
-						    </div>
-						   
+						    </div>   
 						    
 						  </div>
 						
-
-
 					<div class="form-group col-md-2">
 						<!-- 					<label for="add">Ação</label>  -->
 						<br />

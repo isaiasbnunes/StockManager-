@@ -55,7 +55,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @Controller
 public class SaidaController {
 
-private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
+    private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
 	
 	@Autowired
 	private ProdutoRepository produtoRepository;
@@ -122,36 +122,75 @@ private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
 		return mv;
 	}
 	
+	//Verifica se o produto existe na lista
+	private boolean containsItensListsaida(SaidaItens saidaItens) {
+		for(SaidaItens s : listaSaidas) {
+			if(s.getProduto().getNome().equals(saidaItens.getProduto().getNome())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	//Verificar se item não está zerado no estoque
+	private boolean verificarItemEstoque(SaidaItens saidaItens) {
+		Optional<Produto> p = produtoRepository.findById(saidaItens.getProduto().getId());
+		double quant = p.get().getEstoque();
+		
+		if(quant <= 0 || 0 > (quant - saidaItens.getQuantidade())) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/*
+	 *  Verificar estoque zerado antes de salvar
+	 *  Verifica cada item da lista antes de salvar
+	 *  Isso se faz necessario por poder ter varias saídas ainda não aprovadas
+	 */
+	private boolean checkStockBeforeSave() {
+		
+		for(SaidaItens s : listaSaidas ) {  
+			   return verificarItemEstoque(s);
+		}
+		
+		return false;
+	}
+	
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER')")
 	@PostMapping("/saida/salvar")
 	public ModelAndView salvar(String acao, Saida saida, SaidaItens saidaItens)  {
         
 		if(acao.equals("itens")) {
-			Optional<Produto> p = produtoRepository.findById(saidaItens.getProduto().getId());
-			 double quant = p.get().getEstoque();
-			 if(quant <= 0 || 0 > (quant - saidaItens.getQuantidade())) {
-				
-				 return inicializarModel(saida, saidaItens, "estoq");
+			
+			 if(verificarItemEstoque(saidaItens)) {
+				 return inicializarModel(saida, saidaItens, "Item com estoque zerado ou insuficiente!");
 			 }else {
+				
+				 if(containsItensListsaida(saidaItens)) {
+					 return inicializarModel(saida, saidaItens, "Já existe esse item na lista!");
+				 }
+				 
 				 this.listaSaidas.add(saidaItens);
 			 }
 		}else if(acao.equals("salvar")) {
 			
-			saida.setUser(userLogin.getUserLogin());
-			saidaRepository.saveAndFlush(saida);
+				saida.setUser(userLogin.getUserLogin());
+				saidaRepository.saveAndFlush(saida);
+			
+				 for(SaidaItens it : listaSaidas) { 
+					 it.setSaida(saida);
+				 	 saidaItensRepository.saveAndFlush(it); 
+				 }
+				 
+				this.listaSaidas = new ArrayList<>();
+				
+				log = new Log("",saida.toString(), Operacao.SAVE, userLogin.getUserLogin());
+				logRepository.save(log);
+				return cadastrar(new Saida(), new SaidaItens(),"");
 		
-			 for(SaidaItens it : listaSaidas) { 
-				 it.setSaida(saida);
-			 	 saidaItensRepository.saveAndFlush(it); 
-			 }
-			 
-			this.listaSaidas = new ArrayList<>();
-			
-			log = new Log("",saida.toString(), Operacao.SAVE, userLogin.getUserLogin());
-			logRepository.save(log);
-			return cadastrar(new Saida(), new SaidaItens(),"");
-			
 		}else if( !acao.equals("itens") &&  !acao.equals("salvar")) {	
 		
 			for(SaidaItens i : listaSaidas) {
@@ -199,7 +238,6 @@ private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
 		
 			for(SaidaItens i : listaSaidas) {
 				if(i.getProduto().getNome().equals(acao)) {	
-					System.out.println(">>>>>>>> id: "+ i.getId());
 					 listaSaidas.remove(i);
 					 saidaItensRepository.deleteById(i.getId());
 					 return cadastrar(saida, new SaidaItens(),"");
@@ -215,33 +253,42 @@ private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
 	@PreAuthorize("hasAnyAuthority('ADMIN','MANAGER')")
 	@PostMapping("/saida/atendsaida")
 	public ModelAndView atenderSaidaSave(String acao, Saida saida, SaidaItens saidaItens)  {
-       System.out.println(">>>>>> metodo atender e salvar...");
+       
 		if(!saida.isAtendida()) {
 			if(acao.equals("itens")) {
-				Optional<Produto> p = produtoRepository.findById(saidaItens.getProduto().getId());
-				 double quant = p.get().getEstoque();
-				 if(quant <= 0 || 0 > (quant - saidaItens.getQuantidade())) {
-					
+				
+				 if(verificarItemEstoque(saidaItens)) {
 					 return inicializarModel(saida, saidaItens, "estoq");
 				 }else {
+					
+					 if(containsItensListsaida(saidaItens)) {
+						 return inicializarModel(saida, saidaItens, "Existem itens repetidos na lista!");
+					 }
+					 
 					 this.listaSaidas.add(saidaItens);
 				 }
+				
 			}else if(acao.equals("salvar")) {
 				
-				saida.setUser(userLogin.getUserLogin());
-				saida.setAtendida(true);
-				saida.setSaidaItens(listaSaidas);
-				saidaRepository.saveAndFlush(saida);
-				for(SaidaItens it : listaSaidas) {
-					Optional<Produto> prod = produtoRepository.findById(it.getProduto().getId());
-					Produto produto = prod.get();
-					produto.setEstoque(produto.getEstoque() - it.getQuantidade());
-					produtoRepository.saveAndFlush(produto);
+				if(!checkStockBeforeSave()) {
+				
+					saida.setUser(userLogin.getUserLogin());
+					saida.setAtendida(true);
+					saida.setSaidaItens(listaSaidas);
+					saidaRepository.saveAndFlush(saida);
+					for(SaidaItens it : listaSaidas) {
+						Optional<Produto> prod = produtoRepository.findById(it.getProduto().getId());
+						Produto produto = prod.get();
+						produto.setEstoque(produto.getEstoque() - it.getQuantidade());
+						produtoRepository.saveAndFlush(produto);
+					}
+					this.listaSaidas = new ArrayList<>();
+					log = new Log("",saida.toString(), Operacao.ATENDEU_REQ, userLogin.getUserLogin());
+					logRepository.save(log);
+					return cadastrar(new Saida(), new SaidaItens(),"");
+				}else {
+					return cadastrar(saida, saidaItens,"Existem itens com valores zerados ou insuficientes!");
 				}
-				this.listaSaidas = new ArrayList<>();
-				log = new Log("",saida.toString(), Operacao.ATENDEU_REQ, userLogin.getUserLogin());
-				logRepository.save(log);
-				return cadastrar(new Saida(), new SaidaItens(),"");
 				
 			}else if( !acao.equals("itens") &&  !acao.equals("salvar")) {	
 			
@@ -352,7 +399,6 @@ private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
 	@PostMapping("/relatorio/consumo_pesquisar")
 	public ModelAndView pesquisarConsumoCategoria(String dataInicio, String dataFim) throws ParseException {
 		ModelAndView mv = new ModelAndView("relatorio/consumo-categoria");
-		System.out.println(">>>>>>> "+dataFim +">>>>>>>> data fim "+dataFim);
 		List<Consumo> list = consumoCategoria(new SimpleDateFormat("yyyy-MM-dd").parse(dataInicio),
 				new SimpleDateFormat("yyyy-MM-dd").parse(dataFim));	
 		mv.addObject("listConsumo", list);
@@ -376,9 +422,7 @@ private List<SaidaItens> listaSaidas = new ArrayList<SaidaItens>();
 	public ResponseEntity<byte[]> pesquisarConsumoPorProduto(String dataInicio, String dataFim, String categoria,
 			String setor, boolean todas, boolean todosSetores, boolean zero)
 			throws ParseException {
-		
-			System.out.println("Setor >>>> "+ setor);
-		
+			
 		    List<Consumo> list =	consumoProduto(new SimpleDateFormat("yyyy-MM-dd").parse(dataInicio),
 				new SimpleDateFormat("yyyy-MM-dd").parse(dataFim), categoria, setor, todas, todosSetores, zero);
 	
