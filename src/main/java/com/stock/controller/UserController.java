@@ -1,8 +1,6 @@
 package com.stock.controller;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -44,7 +42,7 @@ public class UserController {
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("admin/user/lista");
 		
-		mv.addObject("listaUser", userRepository.findAll());
+		mv.addObject("listaUser", userRepository.findByOrderByNameAsc());
 		return mv;
 	}
 	

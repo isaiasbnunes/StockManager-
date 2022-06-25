@@ -61,7 +61,7 @@ public class ProdutoController {
 	@GetMapping("/produto/listar")
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("produtos/lista");
-		mv.addObject("listaProduto", produtoRepository.findAll(Sort.by(Sort.Direction.ASC, "nome")));
+		mv.addObject("listaProduto", produtoRepository.findByOrderByNomeAsc());
 		return mv;
 	}
 	

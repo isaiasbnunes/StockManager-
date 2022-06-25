@@ -106,7 +106,7 @@ public class SaidaController {
 		mv.addObject("saidaItens", saidaItens);
 		mv.addObject("listTipoEntrada", tipoSaidaRepository.findAll());
 		mv.addObject("listaProdutos", produtoRepository.findAll());
-		mv.addObject("listaFuncionarios", funcionarioRepository.findAll());
+		mv.addObject("listaFuncionarios", funcionarioRepository.findByActiveTrueOrderByNomeAsc());
 		mv.addObject("listaSetor", setorRepository.findAll());
 		
 		return mv;
@@ -543,7 +543,6 @@ public class SaidaController {
 	    double valor = 0.;
 	    double quantidade = 0.;
 	    
-		
 			for(CategoriaProduto c : categorias) { 
 				 valor =0.;
 		         quantidade = 0.0;
@@ -566,7 +565,6 @@ public class SaidaController {
 	    
 		return listConsumo;
 	}
-	
 	
 }
 

@@ -210,7 +210,7 @@ public class EntradaController {
 	@GetMapping("/relatorio/entrada_por_produto")
 	public ModelAndView entradaPorProduto() {
 		ModelAndView mv = new ModelAndView("relatorio/entrada-por-produto");
-		mv.addObject("listaProdutos", produtoRepository.findAll());
+		mv.addObject("listaProdutos", produtoRepository.findByOrderByNomeAsc());
 	   return mv;
 	}
 	
@@ -219,7 +219,6 @@ public class EntradaController {
 		
 		List<Entrada> entradas = entradaRepository.findByDateRecebimento(dataInicio, dataFim);
 
-		
 		
 		Consumo consumo;
 	    double quantidade = 0.;
@@ -248,7 +247,7 @@ public class EntradaController {
 		    }
 	    }else {
 	    	
-	    	List<Produto> listProduto = produtoRepository.findAll();
+	    	List<Produto> listProduto = produtoRepository.findByOrderByNomeAsc();
 	    	 for(Produto p : listProduto) {
 			    	
 				    quantidade = 0.;

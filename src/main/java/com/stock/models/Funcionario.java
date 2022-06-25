@@ -3,6 +3,7 @@ package com.stock.models;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -60,12 +61,20 @@ public class Funcionario implements Serializable{
 	private String cpf;
 	private String observacao;
 	
+	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+	private boolean active = true;
 	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	public String getNome() {
 		return nome;

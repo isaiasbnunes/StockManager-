@@ -77,7 +77,7 @@ public class FuncionarioController {
 	@GetMapping("/funcionarios/listar")
 	public ModelAndView listar() {
 		ModelAndView mv=new ModelAndView("funcionarios/lista");
-		mv.addObject("listaFuncionarios", funcionarioRepository.findAll());
+		mv.addObject("listaFuncionarios", funcionarioRepository.findByActiveTrueOrderByNomeAsc());
 		return mv;
 	}
 	
