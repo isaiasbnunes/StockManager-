@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,13 +46,12 @@ public class FuncionarioController {
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/funcionarios/cadastrar")
 	public ModelAndView cadastrar(Funcionario funcionario) {
-		ModelAndView mv =  initModelAndView(funcionario);
-		return mv;
+		return initModelAndView(funcionario);
 	}
 
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER')")
 	@PostMapping("/funcionarios/cidade")
-	private ModelAndView salvarCidade(@Valid Cidade cidade) {
+	public ModelAndView salvarCidade(@Valid Cidade cidade) {
 		cidadeRepository.saveAndFlush(cidade);
 	    return	initModelAndView(new Funcionario());
 	}

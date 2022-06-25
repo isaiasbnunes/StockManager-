@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -46,9 +45,7 @@ public class FornecedorController {
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/fornecedor/listar")
 	public ModelAndView listar() {
-		ModelAndView mv = new ModelAndView("fornecedor/lista");
-		//mv.addObject("listaFornecedores", fornecedorRepository.findAll(Sort.by(Sort.Direction.ASC, "nomeFantasia")));
-		mv.addObject("listaFornecedores", fornecedorRepository.findByOrderByNomeFantasiaAsc());
+		ModelAndView mv = new ModelAndView("fornecedor/lista");	mv.addObject("listaFornecedores", fornecedorRepository.findByOrderByNomeFantasiaAsc());
 		return mv;
 	}
 	
@@ -56,7 +53,6 @@ public class FornecedorController {
 	@PostMapping("/fornecedor/salvar")
 	public ModelAndView salvar(@Valid Fornecedor fornecedor, BindingResult result) {
 		
-		//System.out.println(result.getAllErrors());
 		if(result.hasErrors()) {
 			return cadastrar(fornecedor);
 		}
