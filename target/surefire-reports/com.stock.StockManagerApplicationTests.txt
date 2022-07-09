@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.stock.StockManagerApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 40.384 s - in com.stock.StockManagerApplicationTests
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 16.409 s - in com.stock.StockManagerApplicationTests
