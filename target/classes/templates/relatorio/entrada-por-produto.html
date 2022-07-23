@@ -24,7 +24,7 @@
               
 
 	              <class="card-body">
-	              <h5 class="card-title">Visualizar <span>| Consumo por produto</span></h5>
+	              <h5 class="card-title">Visualizar <span>| Entrada por produto</span></h5>
 				  
 				  
 				     <form action="/relatorio/pesquisa_entrada_produto"
@@ -60,31 +60,6 @@
 					    
                      </form>
               
-				  <hr />
-				  
-				  	<div class="table-responsive">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-								    
-									<th>Categoria</th>
-									<th>Quantidade</th>
-									<th>Data</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="p : ${listEntradaProduto}">
-									
-									<td th:text="${p.nomeProduto}"></td>
-									<td th:text="${p.quantidade}"></td>
-									<td th:text="${p.data}"></td>
-								</tr>
-							</tbody>	
-						</table>	
-	
-					</div>
-				
-		
 	          </div><!-- End Customers Card -->
           </div>
 
