@@ -13,6 +13,6 @@ import com.stock.models.Fornecedor;
  */
 public interface FornecedorRepository  extends JpaRepository<Fornecedor, Long>{
 	
-	List<Fornecedor> findByOrderByNomeFantasiaAsc();
+	List<Fornecedor> findByActiveTrueOrderByNomeFantasiaAsc();
 	
 }

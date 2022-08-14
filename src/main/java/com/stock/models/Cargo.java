@@ -2,6 +2,7 @@ package com.stock.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,10 @@ public class Cargo implements Serializable{
 	
 	private String nome;
 	private String observacao;
+	
+	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+	private boolean active = true;
+	
 	public Long getId() {
 		return id;
 	}
@@ -36,6 +41,13 @@ public class Cargo implements Serializable{
 	}
 	public void setObservacao(String observacao) {
 		this.observacao = observacao;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 	@Override
 	public String toString() {

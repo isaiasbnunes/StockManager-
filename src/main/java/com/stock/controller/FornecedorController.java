@@ -45,7 +45,8 @@ public class FornecedorController {
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/fornecedor/listar")
 	public ModelAndView listar() {
-		ModelAndView mv = new ModelAndView("fornecedor/lista");	mv.addObject("listaFornecedores", fornecedorRepository.findByOrderByNomeFantasiaAsc());
+		ModelAndView mv = new ModelAndView("fornecedor/lista");	
+		mv.addObject("listaFornecedores", fornecedorRepository.findByActiveTrueOrderByNomeFantasiaAsc());
 		return mv;
 	}
 	
@@ -80,7 +81,11 @@ public class FornecedorController {
 	@GetMapping("fornecedor/remover/{id}")
 	public ModelAndView remover(@PathVariable("id") Long id) {
 		Optional<Fornecedor> f = fornecedorRepository.findById(id);
-		fornecedorRepository.delete(f.get());
+		if(f.isPresent()) {
+			Fornecedor forne = f.get();
+			forne.setActive(false);
+			fornecedorRepository.save(forne);
+		}
 		return listar();
 	}
 	

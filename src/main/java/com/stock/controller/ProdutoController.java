@@ -40,7 +40,7 @@ public class ProdutoController {
 	@GetMapping("/produto/listar")
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("produtos/lista");
-		mv.addObject("listaProduto", produtoRepository.findByOrderByNomeAsc());
+		mv.addObject("listaProduto", produtoRepository.findByActiveTrueOrderByNomeAsc());
 		return mv;
 	}
 	
@@ -78,7 +78,11 @@ public class ProdutoController {
 	@GetMapping("/produtos/remover{id}")
 	public ModelAndView remover(@PathVariable("id") Long id) {
 		Optional<Produto> produto = produtoRepository.findById(id);
-		produtoRepository.delete(produto.get());
+		if(produto.isPresent()) {
+			Produto p  = produto.get();
+			p.setActive(false);
+			produtoRepository.saveAndFlush(p);
+		}
 		return listar();
 	}
 	

@@ -15,7 +15,7 @@ import com.stock.models.User;
  */
 public interface UserRepository extends JpaRepository<User, Long>{
 
-	@Query("SELECT u FROM User u WHERE u.username = :username")
+	@Query("SELECT u FROM User u WHERE u.username = :username and u.active = true")
 	public User getByUsername(@Param("username") String username);
 	
 	List<User> findByOrderByNameAsc();

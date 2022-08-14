@@ -94,7 +94,12 @@ public class FuncionarioController {
 	@GetMapping("/funcionarios/remover/{id}")
 	public ModelAndView remover(@PathVariable("id") Long id) {
 		Optional<Funcionario> funcionario = funcionarioRepository.findById(id);
-		funcionarioRepository.delete(funcionario.get());
+		if(funcionario.isPresent()) {
+			System.out.println(">>>>>>>>>>> "+funcionario.get().getNome());
+			Funcionario f = funcionario.get();
+			f.setActive(false);
+			salvar(f);
+		}
 		return listar();
 	}
 	

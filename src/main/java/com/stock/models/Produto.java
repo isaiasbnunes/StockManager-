@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -39,6 +40,10 @@ public class Produto implements Serializable{
 	
 	@ManyToOne
 	private CategoriaProduto categoria;
+	
+	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+	private boolean active = true;
+	
 	
 	private String observacao;
 
@@ -106,6 +111,14 @@ public class Produto implements Serializable{
 
 	public void setValorString(String valorString) {
 		this.valorString = valorString;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 
 	public String getNumberFormat(double valorReal) {

@@ -26,6 +26,7 @@ import com.stock.repository.FuncionarioRepository;
 import com.stock.repository.ProdutoRepository;
 import com.stock.repository.TipoEntradaRepository;
 import com.stock.repository.UserRepository;
+import com.stock.utils.UserLogin;
 
 /**
  * 
@@ -39,6 +40,8 @@ public class EntradaController {
 	
 	private Double total = 0.;
 	
+	@Autowired
+	private UserLogin userLogin;
 	
 	@Autowired
 	private FornecedorRepository fornecedorRepository;
@@ -61,16 +64,15 @@ public class EntradaController {
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/entrada/cadastrar")
 	public ModelAndView cadastrar(Entrada entrada, EntradaItens entradaItens) {
-		System.out.println(">>> page entrada...");
-		System.out.println(">>> Total..."+ total);
+		
 		ModelAndView mv = new ModelAndView("entrada/cadastro");
 		mv.addObject("entrada", entrada);
 		mv.addObject("listaEntradaItens", this.listaEntrada);
 		mv.addObject("entradaItens", entradaItens);
 		mv.addObject("total", total);
-		mv.addObject("listaFuncionarios", funcionarioRepository.findAll());
-		mv.addObject("listaProduto", produtoRepository.findAll());
-		mv.addObject("listaFornecedor", fornecedorRepository.findAll());
+		mv.addObject("listaFuncionarios", funcionarioRepository.findByActiveTrueOrderByNomeAsc());
+		mv.addObject("listaProduto", produtoRepository.findByActiveTrueOrderByNomeAsc());
+		mv.addObject("listaFornecedor", fornecedorRepository.findByActiveTrueOrderByNomeFantasiaAsc());
 		mv.addObject("listTipoEntrada", tipoEntradaRepository.findAll());
 		
 		return mv;
@@ -87,7 +89,7 @@ public class EntradaController {
 		
 		}else if(acao.equals("salvar")) {
 			
-			entrada.setUser(getUserLogin());
+			entrada.setUser(userLogin.getUserLogin());
 			entrada.setEntradaItens(listaEntrada);
 			entradaRepository.saveAndFlush(entrada);
 			for(EntradaItens it : listaEntrada) {
@@ -160,29 +162,6 @@ public class EntradaController {
 		mv.addObject("total", totalItens(e.get().getEntradaItens()));
 		return mv;
 	}
-	
-	private User getUserLogin() {
-		
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-		String user;    
-
-		if (principal instanceof MyUserDetails) {
-		    user = (( MyUserDetails)principal).getUsername();
-		} else {
-		    user = principal.toString();
-		}
-		
-		User userByBd = userRepository.getByUsername(user);
-		
-		if(userByBd != null) {
-			return userByBd;
-		}
-		
-		return null;
-	}
-
-	
 
 }
 

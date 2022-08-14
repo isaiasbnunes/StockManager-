@@ -2,14 +2,7 @@ package com.stock.models;
 
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
-
 import javax.persistence.*;
-
-import org.springframework.security.core.context.SecurityContextHolder;
-
-import com.stock.MyUserDetails;
 import com.stock.enums.Role;
 
 /**
@@ -34,10 +27,9 @@ public class User implements Serializable{
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;  
-	  
 	
-	@Column(columnDefinition = "boolean default true")
-	private boolean enabled = true;
+	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+	private boolean active = true;
 
 	@Transient
 	private String confirmPassword;
@@ -81,15 +73,15 @@ public class User implements Serializable{
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
 	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	public String getEmail() {
 		return email;
 	}

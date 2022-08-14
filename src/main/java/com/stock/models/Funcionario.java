@@ -196,7 +196,7 @@ public class Funcionario implements Serializable{
 	public void setVinculo(String vinculo) {
 		this.vinculo = vinculo;
 	}
-
+	
 	@Override
 	public String toString() {
 		return nome;

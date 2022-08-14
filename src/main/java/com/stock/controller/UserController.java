@@ -63,7 +63,6 @@ public class UserController {
 		 
 			   String password = new BCryptPasswordEncoder().encode(user.getPassword());
 			   user.setPassword(password);
-			   user.setEnabled(true);
 			
 			   User u = userRepository.saveAndFlush(user);	
 			   if(u.getUsername().equals(user.getUsername())) {

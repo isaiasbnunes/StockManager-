@@ -67,7 +67,7 @@ public class SaidaController {
 	private Log log;
 	
 	@Autowired
-	private UserLogin userLogin = new UserLogin();
+	private UserLogin userLogin;
 	
 	
 	Produto produto = new Produto();
@@ -87,7 +87,7 @@ public class SaidaController {
 		mv.addObject("listaSaidaItens", this.listaSaidas);
 		mv.addObject("saidaItens", saidaItens);
 		mv.addObject("listTipoEntrada", tipoSaidaRepository.findAll());
-		mv.addObject("listaProdutos", produtoRepository.findAll());
+		mv.addObject("listaProdutos", produtoRepository.findByActiveTrueOrderByNomeAsc());
 		mv.addObject("listaFuncionarios", funcionarioRepository.findByActiveTrueOrderByNomeAsc());
 		mv.addObject("listaSetor", setorRepository.findAll());
 		

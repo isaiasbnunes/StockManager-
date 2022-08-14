@@ -2,6 +2,7 @@ package com.stock.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +34,9 @@ public class Fornecedor implements Serializable {
 	private String telefone2;
 	private String contato;
 	private String email;
+	
+	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+	private boolean active = true;
 	
 	@ManyToOne
 	private Estado estado;
@@ -135,6 +139,12 @@ public class Fornecedor implements Serializable {
 		this.cidade = cidade;
 	}
 	
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
 	@Override
 	public String toString() {
 		return nomeFantasia ;

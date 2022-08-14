@@ -22,7 +22,8 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long>{
 	
 	@Query(value = "SELECT p FROM Produto p where p.categoria.nome = :categoria ORDER BY p.nome ASC" )
 	public List<Produto> findByCategory(@Param("categoria") String categoria);
-
+	
+	List<Produto> findByActiveTrueOrderByNomeAsc();
 	
 	List<Produto> findByOrderByNomeAsc();
 }
