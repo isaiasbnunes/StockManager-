@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.stock.models.Cargo;
+import com.stock.models.Fornecedor;
 import com.stock.repository.CargoRepository;
 
 /**
@@ -65,7 +66,12 @@ public class cargoController {
 	@GetMapping("/cargo/remover{id}")
 	public ModelAndView remover(@PathVariable("id") Long id) {
 		Optional<Cargo> cargo = cargoRepository.findById(id);
-		cargoRepository.delete(cargo.get());
+		
+		if(cargo.isPresent()) {
+			Cargo c = cargo.get();
+			c.setActive(false);
+			cargoRepository.save(c);
+		}
 		return listar();
 	}
 	

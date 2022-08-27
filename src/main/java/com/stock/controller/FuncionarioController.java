@@ -84,7 +84,7 @@ public class FuncionarioController {
 		mv.addObject("funcionario", funcionario);
 		mv.addObject("cidade", new Cidade());
 		mv.addObject("listaCidades", cidadeRepository.findAll());
-		mv.addObject("listaCargos", cargoRepository.findAll());
+		mv.addObject("listaCargos", cargoRepository.findByActiveTrueOrderByNomeAsc());
 		mv.addObject("listaEstados", estadoRepository.findAll());
 		mv.addObject("listaSetor", setorRepository.findAll());
 		return mv;
