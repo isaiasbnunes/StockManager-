@@ -34,7 +34,7 @@ public class CategoriaProdutoController {
 	@GetMapping("/categoriaProduto/listar")
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("categoriaProduto/lista");
-		mv.addObject("listaCategorias", categoriaProdutoRepository.findAll());
+		mv.addObject("listaCategorias", categoriaProdutoRepository.findByActiveTrueOrderByNomeAsc());
 		return mv;
 	}
 	
@@ -70,7 +70,11 @@ public class CategoriaProdutoController {
 	@GetMapping("/categoriaProduto/remover{id}")
 	public ModelAndView remover(@PathVariable("id") Long id) {
 		Optional<CategoriaProduto> c = categoriaProdutoRepository.findById(id);
-		categoriaProdutoRepository.delete(c.get());
+		if(c.isPresent()) {
+			CategoriaProduto categoria = c.get();
+			categoria.setActive(false);
+			categoriaProdutoRepository.save(categoria);
+		}
 		return listar();
 	}
 	

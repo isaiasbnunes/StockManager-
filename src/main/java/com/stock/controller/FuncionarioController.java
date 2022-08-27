@@ -95,7 +95,6 @@ public class FuncionarioController {
 	public ModelAndView remover(@PathVariable("id") Long id) {
 		Optional<Funcionario> funcionario = funcionarioRepository.findById(id);
 		if(funcionario.isPresent()) {
-			System.out.println(">>>>>>>>>>> "+funcionario.get().getNome());
 			Funcionario f = funcionario.get();
 			f.setActive(false);
 			salvar(f);

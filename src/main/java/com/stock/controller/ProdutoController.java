@@ -49,7 +49,7 @@ public class ProdutoController {
 	public ModelAndView cadastrar(Produto p) {
 		ModelAndView mv = new ModelAndView("produtos/cadastro"); 
 		mv.addObject("produto", p);
-		mv.addObject("categorias",categoriaProdutoRepository.findAll());
+		mv.addObject("categorias",categoriaProdutoRepository.findByActiveTrueOrderByNomeAsc());
 		mv.addObject("listaUnidadeMedida", UnidadeMedida.values());
 		return mv;
 	}

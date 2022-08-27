@@ -2,6 +2,7 @@ package com.stock.models;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,6 +22,10 @@ public class CategoriaProduto implements Serializable {
 	
 	private String nome;
 	private String obs;
+	
+	@Column(nullable = false, columnDefinition = "TINYINT", length = 1)
+	private boolean active = true;
+	
 	public Long getId() {
 		return id;
 	}
@@ -43,7 +48,13 @@ public class CategoriaProduto implements Serializable {
 	public String toString() {
 		return nome;
 	}
-
+	public boolean isActive() {
+		return active;
+	}
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
 	
 	
 }
