@@ -1,7 +1,10 @@
 package com.stock.controller;
 
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.stock.MyUserDetails;
 import com.stock.models.Entrada;
 import com.stock.models.EntradaItens;
+import com.stock.models.Fornecedor;
 import com.stock.models.Produto;
 import com.stock.models.User;
 import com.stock.repository.EntradaRepository;
@@ -82,11 +86,9 @@ public class EntradaController {
 	@PostMapping("/entrada/salvar")
 	public ModelAndView salvar(String acao, Entrada entrada, EntradaItens entradaItens)  {
 
-		if(acao.equals("itens")) {
-			System.out.println( ">>>>>>> Produto" + entradaItens.getProduto());
+		if(acao.equals("itens") && entradaItens.getProduto() != null ) {
 			this.listaEntrada.add(entradaItens);
 			total = total + entradaItens.getValor();
-		
 		}else if(acao.equals("salvar")) {
 			
 			entrada.setUser(userLogin.getUserLogin());
@@ -120,9 +122,36 @@ public class EntradaController {
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/entrada/listar")
-	public ModelAndView listar() {
+	public ModelAndView listar(String fornecedor, String dataInicio, String dataFim, boolean todas) throws ParseException {
+		
+		if(fornecedor == null || dataInicio == null || dataFim == null ) {
+			ModelAndView mv = new ModelAndView("entrada/pesquisar");
+			mv.addObject("listaFornecedor", fornecedorRepository.findByActiveTrueOrderByNomeFantasiaAsc());
+			return mv;
+		}
+		
+		Date inicio = new SimpleDateFormat("yyyy-MM-dd").parse(dataInicio);
+		Date fim = new SimpleDateFormat("yyyy-MM-dd").parse(dataFim);
+		
+		if(todas) {
+			ModelAndView mv = new ModelAndView("entrada/lista");
+			mv.addObject("listaEntradas",  entradaRepository.findByDateRecebimento(inicio, fim));
+			return mv;
+		}
+		
+		Fornecedor f = fornecedorRepository.findById(Long.parseLong(fornecedor.trim())).get();
+		
 		ModelAndView mv = new ModelAndView("entrada/lista");
-		mv.addObject("listaEntradas", entradaRepository.findAll(Sort.by(Sort.Direction.DESC, "dataRecebimento")));
+		mv.addObject("listaEntradas", entradaRepository.findByDateRecebimentoAndFornecedor(f, 
+				inicio,  fim));
+		return mv;
+	}
+	
+	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
+	@GetMapping("/entrada/pesquisar")
+	public ModelAndView pesquisar() {
+		ModelAndView mv = new ModelAndView("entrada/pesquisar");
+		mv.addObject("listaFornecedor", fornecedorRepository.findByActiveTrueOrderByNomeFantasiaAsc());
 		return mv;
 	}
 	

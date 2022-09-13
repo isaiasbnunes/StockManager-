@@ -57,8 +57,6 @@ public class Entrada implements Serializable {
 	@ManyToOne
 	private TipoEntrada tipoEntrada;
 	
-   // private String numeroNota;
-	
 	
 	@ManyToOne
 	private Fornecedor fornecedor;

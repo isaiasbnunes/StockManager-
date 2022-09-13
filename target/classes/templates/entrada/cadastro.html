@@ -23,8 +23,8 @@
 
 	              <class="card-body">
 	              </br>
-	              <a href="/entrada/listar" class="btn btn-primary btn-sm" tabindex="-1"
-			         	     role="button" aria-disabled="true"><i class='bx bx-list-ul'></i>Listar</a>
+	              <a href="/entrada/pesquisar" class="btn btn-primary btn-sm" tabindex="-1"
+			         	     role="button" aria-disabled="true"><i class='bx bx-list-ul'></i>Pesquisar</a>
 	             
 	              
 	              <h5 class="card-title">Cadastrar <span>| Entrada Notas</span></h5>
@@ -100,7 +100,9 @@
 						
 					   <div class="col-md-12">
 							<label for="produtoList" class="form-label">Produto</label>
-							<input class="form-control" th:field="*{produto}" list="datalistOptions" id="produtoList" placeholder="Digite para pesquisar...">
+							<input class="form-control" th:field="*{produto}" 
+							    list="datalistOptions" id="produtoList"
+							     placeholder="Digite para pesquisar...">
 							
 							<datalist id="datalistOptions" th:field="*{produto}" >
 							    <option th:each="produto: ${listaProduto}" th:value="${produto.id}"
@@ -110,7 +112,8 @@
 					
 						  <div class="row">
 						    <div class="col-8 col-sm-6">
-						        <label for="quantidade">Quantidade</label> <input type="number"
+						        <label for="quantidade">Quantidade</label> 
+						           <input type="number" 
 									class="form-control" id="quantidade" placeholder="Quantidade"
 									autofocus="autofocus" th:field="*{quantidade}" value="" />
 								<div class="invalid-feedback"></div>
@@ -119,7 +122,7 @@
 						    <div class="col-8 col-sm-6">
 						         <label for="valor">Valor Total</label>
 						           <input type="number" class="form-control" id="valor"
-						                  step="0.01" name="valor" 
+						                   name="valor"  
 									       th:field="*{valor}" value="" />
 								 <div class="invalid-feedback"></div>
 						    </div>

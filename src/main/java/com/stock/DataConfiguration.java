@@ -25,7 +25,7 @@ public class DataConfiguration {
 	public JpaVendorAdapter jpaVendorAdapter() {
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		adapter.setDatabase(Database.MYSQL);
-		adapter.setShowSql(true);
+		adapter.setShowSql(false);
 		adapter.setGenerateDdl(true);
 		adapter.setDatabasePlatform("org.hibernate.dialect.MySQL5Dialect");
 		adapter.setPrepareConnection(true);
