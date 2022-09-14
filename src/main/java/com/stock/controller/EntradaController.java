@@ -19,14 +19,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.stock.MyUserDetails;
+import com.stock.enums.Operacao;
 import com.stock.models.Entrada;
 import com.stock.models.EntradaItens;
 import com.stock.models.Fornecedor;
+import com.stock.models.Log;
 import com.stock.models.Produto;
 import com.stock.models.User;
 import com.stock.repository.EntradaRepository;
 import com.stock.repository.FornecedorRepository;
 import com.stock.repository.FuncionarioRepository;
+import com.stock.repository.LogRepository;
 import com.stock.repository.ProdutoRepository;
 import com.stock.repository.TipoEntradaRepository;
 import com.stock.repository.UserRepository;
@@ -63,7 +66,7 @@ public class EntradaController {
 	private TipoEntradaRepository tipoEntradaRepository;
 	
 	@Autowired
-	private UserRepository userRepository;	
+	private LogRepository logRepository;
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/entrada/cadastrar")
@@ -94,6 +97,7 @@ public class EntradaController {
 			entrada.setUser(userLogin.getUserLogin());
 			entrada.setEntradaItens(listaEntrada);
 			entradaRepository.saveAndFlush(entrada);
+			logRepository.save(new Log("", entrada.toString(), Operacao.SAVE, userLogin.getUserLogin()));
 			for(EntradaItens it : listaEntrada) {
 				it.setEntrada(entrada);
 				//entradaItensRepository.saveAndFlush(it);
@@ -105,6 +109,7 @@ public class EntradaController {
 				total = 0.;
 				this.listaEntrada = new ArrayList<>();
 			}
+			
 			return cadastrar(new Entrada(), new EntradaItens());
 			
 		}else if( !acao.equals("itens") &&  !acao.equals("salvar")) {	
@@ -191,7 +196,7 @@ public class EntradaController {
 		mv.addObject("total", totalItens(e.get().getEntradaItens()));
 		return mv;
 	}
-
+	
 }
 
 

@@ -159,6 +159,10 @@ public class SaidaController {
 			 }
 		}else if(acao.equals("salvar")) {
 			
+			if(listaSaidas.isEmpty()) {
+				return inicializarModel(saida, saidaItens, "Adicione ao menos um item antes de salvar!");
+			}
+			
 				saida.setUser(userLogin.getUserLogin());
 				saidaRepository.saveAndFlush(saida);
 			
@@ -169,8 +173,7 @@ public class SaidaController {
 				 
 				this.listaSaidas = new ArrayList<>();
 				
-				log = new Log("",saida.toString(), Operacao.SAVE, userLogin.getUserLogin());
-				logRepository.save(log);
+				logSave("", saida.toString(), Operacao.SAVE);
 				return cadastrar(new Saida(), new SaidaItens(),"");
 		
 		}else if( !acao.equals("itens") &&  !acao.equals("salvar")) {	
@@ -212,8 +215,8 @@ public class SaidaController {
 			 
 			this.listaSaidas = new ArrayList<>();
 			
-			log = new Log("",saida.toString(), Operacao.SAVE, userLogin.getUserLogin());
-			logRepository.save(log);
+			logSave("", saida.toString(), Operacao.EDIT);
+			
 			return cadastrar(new Saida(), new SaidaItens(),"");
 			
 		}else if( !acao.equals("itens") &&  !acao.equals("salvar")) {	
@@ -265,8 +268,9 @@ public class SaidaController {
 						produtoRepository.saveAndFlush(produto);
 					}
 					this.listaSaidas = new ArrayList<>();
-					log = new Log("",saida.toString(), Operacao.ATENDEU_REQ, userLogin.getUserLogin());
-					logRepository.save(log);
+					
+					logSave("", saida.toString(), Operacao.ATENDEU_REQ);
+					
 					return cadastrar(new Saida(), new SaidaItens(),"");
 				}else {
 					return cadastrar(saida, saidaItens,"Existem itens com valores zerados ou insuficientes!");
@@ -371,6 +375,10 @@ public class SaidaController {
 		return cadastrar(new Saida(), new SaidaItens(),"");
 	}
 	
+	private void logSave(String dadosAntes, String dadosDepois, Operacao o) {
+		Log log = new Log(dadosAntes, dadosDepois, Operacao.SAVE, userLogin.getUserLogin());
+		logRepository.save(log);
+	}
 }
 
 

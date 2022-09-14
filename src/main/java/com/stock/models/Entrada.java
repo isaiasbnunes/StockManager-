@@ -140,6 +140,14 @@ public class Entrada implements Serializable {
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
 	}
+
+	@Override
+	public String toString() {
+		return "Entrada [id=" + id + ", entradaItens=" + entradaItens + ", funcionario=" + funcionario + ", user="
+				+ user + ", dataRegistro=" + dataRegistro + ", dataRecebimento=" + dataRecebimento + ", observacao="
+				+ observacao + ", numeroNota=" + numeroNota + ", tipoEntrada=" + tipoEntrada + ", fornecedor="
+				+ fornecedor + "]";
+	}
 	
 	
 	

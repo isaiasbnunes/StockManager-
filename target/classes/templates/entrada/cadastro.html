@@ -113,8 +113,8 @@
 						  <div class="row">
 						    <div class="col-8 col-sm-6">
 						        <label for="quantidade">Quantidade</label> 
-						           <input type="number" 
-									class="form-control" id="quantidade" placeholder="Quantidade"
+						           <input type="number" step="any"
+									class="form-control" id="quantidade" 
 									autofocus="autofocus" th:field="*{quantidade}" value="" />
 								<div class="invalid-feedback"></div>
 						    </div>
@@ -122,7 +122,7 @@
 						    <div class="col-8 col-sm-6">
 						         <label for="valor">Valor Total</label>
 						           <input type="number" class="form-control" id="valor"
-						                   name="valor"  
+						                   name="valor"  step="any"
 									       th:field="*{valor}" value="" />
 								 <div class="invalid-feedback"></div>
 						    </div>

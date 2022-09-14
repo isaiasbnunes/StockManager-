@@ -28,9 +28,9 @@ public class EntradaItens implements Serializable{
 	@ManyToOne
 	private Produto produto;
 	
-	private Double quantidade=0.;
+	private Double quantidade=0.0;
 	
-	private Double valor=0.;
+	private Double valor=0.0;
 	
 	
 	public Long getId() {
@@ -62,6 +62,11 @@ public class EntradaItens implements Serializable{
 	}
 	public void setValor(Double valor) {
 		this.valor = valor;
+	}
+	@Override
+	public String toString() {
+		return "EntradaItens [id=" + id + ", entrada=" + entrada + ", produto=" + produto + ", quantidade=" + quantidade
+				+ ", valor=" + valor + "]";
 	}
 	
 	
