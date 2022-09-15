@@ -20,10 +20,10 @@ import com.stock.models.Saida;
 public interface EntradaRepository extends JpaRepository<Entrada, Long>{
 
 
-	@Query(value = "SELECT e FROM Entrada e where e.dataRecebimento BETWEEN :dataInicio AND :dataFim " )
+	@Query(value = "SELECT e FROM Entrada e where e.dataRecebimento BETWEEN :dataInicio AND :dataFim order by e.dataRecebimento DESC" )
 	public List<Entrada> findByDateRecebimento(@Param("dataInicio") Date dataInicio, @Param("dataFim") Date dataFim);
 
-	@Query(value = "SELECT e FROM Entrada e where e.fornecedor = :fornecedor and e.dataRecebimento BETWEEN :dataInicio AND :dataFim " )
+	@Query(value = "SELECT e FROM Entrada e where e.fornecedor = :fornecedor and e.dataRecebimento BETWEEN :dataInicio AND :dataFim order by e.dataRecebimento DESC" )
 	public List<Entrada> findByDateRecebimentoAndFornecedor(@Param("fornecedor") Fornecedor fornecedor , @Param("dataInicio") Date dataInicio, @Param("dataFim") Date dataFim);
 	
 }

@@ -30,7 +30,11 @@
 	                  <h5 class="card-title">Listagem <span>| Entrada</span></h5>
 					
 					  
-					 
+					 	<span th:if="${msg != null}">
+					        <div class="alert alert-success alert-dismissible fade show" role="alert">
+								<strong>Sucesso! </strong><span th:text="${msg}"></span>
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					    </div></span>
 					 
 					<form action="/entrada/listar"  method="GET">
 						   

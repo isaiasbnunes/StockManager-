@@ -73,6 +73,7 @@ public class EntradaController {
 	public ModelAndView cadastrar(Entrada entrada, EntradaItens entradaItens) {
 		
 		ModelAndView mv = new ModelAndView("entrada/cadastro");
+		
 		mv.addObject("entrada", entrada);
 		mv.addObject("listaEntradaItens", this.listaEntrada);
 		mv.addObject("entradaItens", entradaItens);
@@ -88,7 +89,7 @@ public class EntradaController {
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER')")
 	@PostMapping("/entrada/salvar")
 	public ModelAndView salvar(String acao, Entrada entrada, EntradaItens entradaItens)  {
-
+		String id="";
 		if(acao.equals("itens") && entradaItens.getProduto() != null ) {
 			this.listaEntrada.add(entradaItens);
 			total = total + entradaItens.getValor();
@@ -96,11 +97,11 @@ public class EntradaController {
 			
 			entrada.setUser(userLogin.getUserLogin());
 			entrada.setEntradaItens(listaEntrada);
-			entradaRepository.saveAndFlush(entrada);
+			id = entradaRepository.saveAndFlush(entrada).getId().toString();
+			
 			logRepository.save(new Log("", entrada.toString(), Operacao.SAVE, userLogin.getUserLogin()));
 			for(EntradaItens it : listaEntrada) {
 				it.setEntrada(entrada);
-				//entradaItensRepository.saveAndFlush(it);
 				Optional<Produto> prod = produtoRepository.findById(it.getProduto().getId());
 				Produto produto = prod.get();
 				produto.setValor(it.getValor() / it.getQuantidade() );
@@ -109,8 +110,10 @@ public class EntradaController {
 				total = 0.;
 				this.listaEntrada = new ArrayList<>();
 			}
+			entrada  = new Entrada();
+			entradaItens = new EntradaItens();
 			
-			return cadastrar(new Entrada(), new EntradaItens());
+			return initPesquisar("Entrada registrada com o número: "+id);
 			
 		}else if( !acao.equals("itens") &&  !acao.equals("salvar")) {	
 		    //remover itens da lista
@@ -130,32 +133,35 @@ public class EntradaController {
 	public ModelAndView listar(String fornecedor, String dataInicio, String dataFim, boolean todas) throws ParseException {
 		
 		if(fornecedor == null || dataInicio == null || dataFim == null ) {
-			ModelAndView mv = new ModelAndView("entrada/pesquisar");
-			mv.addObject("listaFornecedor", fornecedorRepository.findByActiveTrueOrderByNomeFantasiaAsc());
-			return mv;
+			return initPesquisar(null);
 		}
 		
 		Date inicio = new SimpleDateFormat("yyyy-MM-dd").parse(dataInicio);
 		Date fim = new SimpleDateFormat("yyyy-MM-dd").parse(dataFim);
 		
 		if(todas) {
-			ModelAndView mv = new ModelAndView("entrada/lista");
-			mv.addObject("listaEntradas",  entradaRepository.findByDateRecebimento(inicio, fim));
-			return mv;
+			return initListar(entradaRepository.findByDateRecebimento(inicio, fim));
 		}
 		
 		Fornecedor f = fornecedorRepository.findById(Long.parseLong(fornecedor.trim())).get();
-		
+		return initListar(entradaRepository.findByDateRecebimentoAndFornecedor(f, inicio,  fim));
+	}
+	
+	private ModelAndView initListar(List<Entrada> l) {
 		ModelAndView mv = new ModelAndView("entrada/lista");
-		mv.addObject("listaEntradas", entradaRepository.findByDateRecebimentoAndFornecedor(f, 
-				inicio,  fim));
+		mv.addObject("listaEntradas", l);
 		return mv;
 	}
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/entrada/pesquisar")
 	public ModelAndView pesquisar() {
+		return initPesquisar(null);
+	}
+	
+	private ModelAndView initPesquisar(String msg) {
 		ModelAndView mv = new ModelAndView("entrada/pesquisar");
+		mv.addObject("msg", msg);
 		mv.addObject("listaFornecedor", fornecedorRepository.findByActiveTrueOrderByNomeFantasiaAsc());
 		return mv;
 	}
