@@ -20,7 +20,7 @@ public interface ProdutoRepository extends JpaRepository<Produto, Long>{
 	@Query(value = "SELECT p FROM Produto p where p.nome = :nome ORDER BY p.nome ASC" )
 	public List<Produto> findByName(@Param("nome") String nome);
 	
-	@Query(value = "SELECT p FROM Produto p where p.categoria.nome = :categoria ORDER BY p.nome ASC" )
+	@Query(value = "SELECT p FROM Produto p where p.categoria.nome = :categoria and active = true ORDER BY p.nome ASC" )
 	public List<Produto> findByCategory(@Param("categoria") String categoria);
 	
 	List<Produto> findByActiveTrueOrderByNomeAsc();

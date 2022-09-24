@@ -21,4 +21,7 @@ public interface SaidaRepository extends JpaRepository<Saida, Long> {
 	public List<Saida> findByDate( 
 			      @Param("dataInicio") Date dataInicio, @Param("dataFim") Date dataFim);
 	
+	@Query(value = "SELECT count(s) FROM Saida s where  s.atendida = false " )
+	public long countSaidaAtender();
+	
 }

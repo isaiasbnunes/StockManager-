@@ -34,14 +34,40 @@
 
              
 
-	                <div class="card-body">
-	                  <h5 class="card-title">Home <span>| Administrativo</span></h5>
+	            <div class="card-body">
+	            <h5 class="card-title">Home <span>| Administrativo</span></h5>
 					  
-					  <!-- =========== Aqui entra o codigo alterado ============ -->
+			 <!-- =========== Aqui entra o codigo alterado ============ -->
 	                  
+	            	   <!-- Revenue Card -->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card revenue-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Saídas <span>| total para atender</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-cart-check"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>
+                      <a href="/saida/listar">
+                      <span th:text="${totalSaidaAtender}"></span> 
+                      </a></h6>
+                      <span class="text-muted small pt-2 ps-1">Total atendidas </span>
+                      <span class="text-success small pt-1 fw-bold" th:text="${totalAtendidas}"></span>
+                       
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Revenue Card -->
+
 	                  
 		
-					<!-- =========== FIM codigo alterado ============ -->
+			  <!-- =========== FIM codigo alterado ============ -->
 	                  
 	
 	                </div>

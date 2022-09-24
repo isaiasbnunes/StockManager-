@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.stock.enums.Operacao;
 import com.stock.models.Cidade;
 import com.stock.models.Funcionario;
 import com.stock.repository.CargoRepository;
@@ -19,6 +20,7 @@ import com.stock.repository.CidadeRepository;
 import com.stock.repository.EstadoRepository;
 import com.stock.repository.FuncionarioRepository;
 import com.stock.repository.SetorRepository;
+import com.stock.utils.LogService;
 
 /**
  * 
@@ -43,6 +45,9 @@ public class FuncionarioController {
 	@Autowired
 	private SetorRepository setorRepository;
 	
+	@Autowired
+	private LogService logService;
+	
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/funcionarios/cadastrar")
 	public ModelAndView cadastrar(Funcionario funcionario) {
@@ -60,6 +65,12 @@ public class FuncionarioController {
 	@PostMapping("/funcionarios/salvar")
 	public ModelAndView salvar(@Valid Funcionario funcionario) {
 		
+			if(funcionario.getId() != null) {
+				Funcionario f = funcionarioRepository.getById(funcionario.getId());
+				logService.save(f.toString(), funcionario.toString(), Operacao.EDIT);
+			}else {
+				logService.save("", funcionario.toString(), Operacao.SAVE);
+			}
 			Funcionario f = funcionarioRepository.saveAndFlush(funcionario);
 			if(f.getNome().equals(funcionario.getNome())) {
 				
@@ -97,7 +108,8 @@ public class FuncionarioController {
 		if(funcionario.isPresent()) {
 			Funcionario f = funcionario.get();
 			f.setActive(false);
-			salvar(f);
+			funcionarioRepository.saveAndFlush(f);
+			logService.save(f.toString(), "", Operacao.DELETE);
 		}
 		return listar();
 	}

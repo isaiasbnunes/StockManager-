@@ -36,10 +36,11 @@ public class RelatorioEstoqueController {
 	public ResponseEntity<byte[]> generatePdf(String categoria, boolean todas) {
 		List<Produto> produtoList;
 		if(todas) {
-			produtoList = produtoRepository.findAll(Sort.by(Sort.Direction.ASC, "nome"));	
-		}else {
-			produtoList = produtoRepository.findByCategory(categoria);	
+			produtoList = produtoRepository.findByActiveTrueOrderByNomeAsc();
 		}
+		
+		produtoList = produtoRepository.findByCategory(categoria);	
+		
 		JRBeanCollectionDataSource beanCollectionDataSource = 
 				new JRBeanCollectionDataSource(produtoList, false);
 		

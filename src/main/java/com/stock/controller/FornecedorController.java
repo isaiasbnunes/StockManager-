@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.stock.enums.Operacao;
 import com.stock.models.Fornecedor;
 import com.stock.repository.CidadeRepository;
 import com.stock.repository.FornecedorRepository;
+import com.stock.utils.LogService;
 
 /**
  * 
@@ -31,6 +33,8 @@ public class FornecedorController {
 	@Autowired
 	private CidadeRepository cidadeRepository;
 	
+	@Autowired
+	private LogService logService;
 	
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/fornecedor/cadastrar")
@@ -56,6 +60,13 @@ public class FornecedorController {
 		
 		if(result.hasErrors()) {
 			return cadastrar(fornecedor);
+		}
+		
+		if(fornecedor.getId() != null) {
+			Optional<Fornecedor> f = fornecedorRepository.findById(fornecedor.getId());
+			logService.save(f.get().toString(), fornecedor.toString(), Operacao.EDIT);
+		}else {
+			logService.save("", fornecedor.toString(), Operacao.SAVE);
 		}
 		
 		Fornecedor f = fornecedorRepository.saveAndFlush(fornecedor);
@@ -85,6 +96,7 @@ public class FornecedorController {
 			Fornecedor forne = f.get();
 			forne.setActive(false);
 			fornecedorRepository.save(forne);
+			logService.save(forne.toString(), "", Operacao.DELETE);
 		}
 		return listar();
 	}

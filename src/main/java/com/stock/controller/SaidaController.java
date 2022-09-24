@@ -28,6 +28,7 @@ import com.stock.repository.SaidaItensRepository;
 import com.stock.repository.SaidaRepository;
 import com.stock.repository.SetorRepository;
 import com.stock.repository.TipoSaidaRepository;
+import com.stock.utils.LogService;
 import com.stock.utils.UserLogin;
 
 
@@ -59,15 +60,13 @@ public class SaidaController {
 	private SetorRepository setorRepository;
 	
 	@Autowired
-	private LogRepository logRepository;
-	
-	@Autowired
 	private SaidaItensRepository saidaItensRepository;
-	
-	private Log log;
 	
 	@Autowired
 	private UserLogin userLogin;
+	
+	@Autowired
+	private LogService logService;
 	
 	
 	Produto produto = new Produto();
@@ -173,7 +172,7 @@ public class SaidaController {
 				 
 				this.listaSaidas = new ArrayList<>();
 				
-				logSave("", saida.toString(), Operacao.SAVE);
+				logService.save("", saida.toString(), Operacao.SAVE);
 				return cadastrar(new Saida(), new SaidaItens(),"");
 		
 		}else if( !acao.equals("itens") &&  !acao.equals("salvar")) {	
@@ -215,7 +214,7 @@ public class SaidaController {
 			 
 			this.listaSaidas = new ArrayList<>();
 			
-			logSave("", saida.toString(), Operacao.EDIT);
+			logService.save("", saida.toString(), Operacao.EDIT);
 			
 			return cadastrar(new Saida(), new SaidaItens(),"");
 			
@@ -269,8 +268,7 @@ public class SaidaController {
 					}
 					this.listaSaidas = new ArrayList<>();
 					
-					logSave("", saida.toString(), Operacao.ATENDEU_REQ);
-					
+					logService.save("", saida.toString(), Operacao.ATENDEU_REQ);
 					return cadastrar(new Saida(), new SaidaItens(),"");
 				}else {
 					return cadastrar(saida, saidaItens,"Existem itens com valores zerados ou insuficientes!");
@@ -375,10 +373,6 @@ public class SaidaController {
 		return cadastrar(new Saida(), new SaidaItens(),"");
 	}
 	
-	private void logSave(String dadosAntes, String dadosDepois, Operacao o) {
-		Log log = new Log(dadosAntes, dadosDepois, Operacao.SAVE, userLogin.getUserLogin());
-		logRepository.save(log);
-	}
 }
 
 

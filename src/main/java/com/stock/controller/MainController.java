@@ -1,7 +1,11 @@
 package com.stock.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.stock.repository.SaidaRepository;
 
 /**
  * 
@@ -11,9 +15,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
+	@Autowired
+	private SaidaRepository saidaRepositori;
+	
 	@GetMapping("/")
-	public String acessarPrincipal() {
-		return "home";
+	public ModelAndView acessarPrincipal() {
+		
+		long saidasTotal =  saidaRepositori.count();
+		long atender =  saidaRepositori.countSaidaAtender();
+		long total =  saidasTotal - atender;
+		
+		ModelAndView mv = new ModelAndView("home");
+		mv.addObject("totalSaidaAtender", atender);
+		mv.addObject("totalAtendidas",  total);
+		return mv;
 	}
 	
 	@GetMapping("/login")

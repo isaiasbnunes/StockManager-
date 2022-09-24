@@ -197,15 +197,20 @@ public class Funcionario implements Serializable{
 		this.vinculo = vinculo;
 	}
 	
-	@Override
-	public String toString() {
-		return nome;
-	}
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
+	}
+	@Override
+	public String toString() {
+		return "Funcionario [id=" + id + ", nome=" + nome + ", dataEntrada=" + dataEntrada + ", dataSaida=" + dataSaida
+				+ ", dataNascimento=" + dataNascimento + ", cargo=" + cargo + ", cidade=" + cidade + ", estado="
+				+ estado + ", setor=" + setor + ", matricula=" + matricula + ", vinculo=" + vinculo + ", logradouro="
+				+ logradouro + ", numero=" + numero + ", complemento=" + complemento + ", bairro=" + bairro + ", cep="
+				+ cep + ", telefone1=" + telefone1 + ", telefone2=" + telefone2 + ", email=" + email + ", rg=" + rg
+				+ ", cpf=" + cpf + ", observacao=" + observacao + ", active=" + active + "]";
 	}
 	
 }

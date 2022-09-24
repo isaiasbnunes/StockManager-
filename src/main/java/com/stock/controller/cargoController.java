@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.stock.enums.Operacao;
 import com.stock.models.Cargo;
-import com.stock.models.Fornecedor;
 import com.stock.repository.CargoRepository;
+import com.stock.utils.LogService;
 
 /**
  * 
@@ -27,12 +28,15 @@ public class cargoController {
 
 	@Autowired
 	private CargoRepository cargoRepository;
+	
+	@Autowired
+	private LogService logService;
 
 	@PreAuthorize("hasAnyAuthority('ADMIN','USER','MANAGER','VIEW')")
 	@GetMapping("/cargo/listar")
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("cargo/lista");
-		mv.addObject("listaCargo", cargoRepository.findAll());
+		mv.addObject("listaCargo", cargoRepository.findByActiveTrueOrderByNomeAsc());
 		return mv;
 	}
 	
@@ -50,8 +54,15 @@ public class cargoController {
 		if(result.hasErrors()) {
 			return cadastrar(cargo);
 		}
-		Cargo c = cargoRepository.saveAndFlush(cargo);
+		if(cargo.getId() == null) {
+			logService.save("", cargo.toString(), Operacao.SAVE);
+		}else {
+			Optional<Cargo> c = cargoRepository.findById(cargo.getId());
+			logService.save(c.get().toString(), cargo.toString(), Operacao.EDIT);
+		}
 		
+		Cargo c = cargoRepository.saveAndFlush(cargo);
+	
 		if(c.getNome().equals(cargo.getNome())) {
 			ModelAndView mv = new ModelAndView("cargo/cadastro"); 
 			mv.addObject("cargo", new Cargo());
@@ -71,6 +82,7 @@ public class cargoController {
 			Cargo c = cargo.get();
 			c.setActive(false);
 			cargoRepository.save(c);
+			logService.save(c.toString(), "", Operacao.DELETE);
 		}
 		return listar();
 	}

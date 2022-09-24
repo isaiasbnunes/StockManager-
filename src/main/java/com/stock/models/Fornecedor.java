@@ -147,7 +147,11 @@ public class Fornecedor implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return nomeFantasia ;
+		return "Fornecedor [id=" + id + ", razaoSocial=" + razaoSocial + ", nomeFantasia=" + nomeFantasia
+				+ ", endereco=" + endereco + ", bairro=" + bairro + ", complemento=" + complemento + ", cep=" + cep
+				+ ", numero=" + numero + ", inscricaoEstadual=" + inscricaoEstadual + ", cnpj=" + cnpj + ", telefone1="
+				+ telefone1 + ", telefone2=" + telefone2 + ", contato=" + contato + ", email=" + email + ", active="
+				+ active + ", estado=" + estado + ", cidade=" + cidade + "]";
 	}
 	
 	
