@@ -39,7 +39,10 @@
 					  
 			 <!-- =========== Aqui entra o codigo alterado ============ -->
 	                  
-	            	   <!-- Revenue Card -->
+	    <!-- Card estatística-->
+	    <div class="col-lg-12">
+          <div class="row">
+          <!-- Card saidas-->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
@@ -63,8 +66,36 @@
                 </div>
 
               </div>
-            </div><!-- End Revenue Card -->
+            </div><!-- Card saidas-->
+         
+           <!-- Card Total consumo-->
+            <div class="col-xxl-4 col-md-6">
+              <div class="card info-card revenue-card">
 
+                <div class="card-body">
+                  <h5 class="card-title">Total Consumo <span>| mês</span></h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-currency-dollar"></i>
+                    </div>
+                    <div class="ps-3">
+                      <h6>
+                      <a href="/saida/listar">
+                      <span th:text="${#numbers.formatCurrency(valorTotal)}"></span> 
+                      </a></h6>
+                     
+                       
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- Card Total consumo-->
+         
+         
+           </div>
+         </div><!-- Card estatística -->
 	                  
 		
 			  <!-- =========== FIM codigo alterado ============ -->

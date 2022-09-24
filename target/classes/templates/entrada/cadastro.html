@@ -159,7 +159,7 @@
 									 
 										<td th:text="${iten.produto.nome}"></td>
 										<td th:text="${iten.quantidade}"></td>
-										<td th:text="${iten.valor}"></td>
+										<td th:text="${#numbers.formatCurrency(iten.valor)}"></td>
 										<td>
 										 		<button id="add" name="acao" style="margin-top:8px"
 										 		     th:value="${iten.produto.nome}" type="submit"
@@ -176,7 +176,9 @@
 						<div class="container">
 	  						<div class="row">
 								<div class="col align-self-end">
-							       <label for="quantidade">Total: </label> <span th:text="${total}">
+							       <label for="quantidade">Total: </label> 
+							        
+							       <span th:text="${#numbers.formatCurrency(total)}">
 							    </div>
 	  						</div>
 						</div>

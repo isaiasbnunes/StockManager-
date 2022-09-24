@@ -132,8 +132,6 @@ public class RelatorioSaidaController {
 			String setor, boolean todas, boolean todosSetores, boolean zero) {
 		
 		List<Consumo> listConsumo =  new ArrayList<>(); 
-		//List<Saida> saidas = saidaRepository.findByDate(dataInicio, dataFim);
-		//List<Saida> saidas = saidaRepository.findByDateAndSetor(setor, dataInicio, dataFim);
 		
 		List<Saida> saidas = findSaidaBySetorAndDate(dataInicio, dataFim, setor, todosSetores);
 		List<Produto> listProduto;
